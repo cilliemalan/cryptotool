@@ -37,32 +37,19 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tpCsrs = new System.Windows.Forms.TabPage();
-            this.groupBox7 = new System.Windows.Forms.GroupBox();
-            this.cbCsrAltNamesInclude = new System.Windows.Forms.CheckBox();
-            this.cbCsrAltNamesCritical = new System.Windows.Forms.CheckBox();
-            this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.txtCsrBasicConstraintPathLength = new System.Windows.Forms.TextBox();
-            this.lblCsrBasicConstraintPathLength = new System.Windows.Forms.Label();
-            this.rbCsrBasicConstraintCA = new System.Windows.Forms.RadioButton();
-            this.rbCsrBasicConstraintEndEntity = new System.Windows.Forms.RadioButton();
-            this.rbCsrBasicConstraintExclude = new System.Windows.Forms.RadioButton();
-            this.cbCsrBasicConstraintCritical = new System.Windows.Forms.CheckBox();
-            this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.cbCsrExtendedUsageCritical = new System.Windows.Forms.CheckBox();
-            this.cbCsrExtendedUsage = new System.Windows.Forms.CheckedListBox();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.label9 = new System.Windows.Forms.Label();
             this.btnCsrProcess = new System.Windows.Forms.Button();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.cbCsrCertUsageCritical = new System.Windows.Forms.CheckBox();
-            this.cbCsrUsage = new System.Windows.Forms.CheckedListBox();
-            this.gbKeyBits = new System.Windows.Forms.GroupBox();
-            this.cbCsKeyBits = new System.Windows.Forms.ComboBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.rdCsrGenerateNewKey = new System.Windows.Forms.RadioButton();
+            this.rdCsrUseExistingKey = new System.Windows.Forms.RadioButton();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.rdCsrKeyEcdsa = new System.Windows.Forms.RadioButton();
             this.rdCsrKeyDsa = new System.Windows.Forms.RadioButton();
             this.rdCsrKeyRsa = new System.Windows.Forms.RadioButton();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.rdCsrGenerateNewKey = new System.Windows.Forms.RadioButton();
-            this.rdCsrUseExistingKey = new System.Windows.Forms.RadioButton();
+            this.gbKeyBits = new System.Windows.Forms.GroupBox();
+            this.cbCsKeyBits = new System.Windows.Forms.ComboBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label3 = new System.Windows.Forms.Label();
             this.txtCsrSubjEmail = new System.Windows.Forms.TextBox();
@@ -76,21 +63,43 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.txtCsrBasicConstraintPathLength = new System.Windows.Forms.TextBox();
+            this.lblCsrBasicConstraintPathLength = new System.Windows.Forms.Label();
+            this.rbCsrBasicConstraintCA = new System.Windows.Forms.RadioButton();
+            this.rbCsrBasicConstraintEndEntity = new System.Windows.Forms.RadioButton();
+            this.rbCsrBasicConstraintExclude = new System.Windows.Forms.RadioButton();
+            this.cbCsrBasicConstraintCritical = new System.Windows.Forms.CheckBox();
+            this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.cbCsrAltNamesInclude = new System.Windows.Forms.CheckBox();
+            this.cbCsrAltNamesCritical = new System.Windows.Forms.CheckBox();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.cbCsrCertUsageCritical = new System.Windows.Forms.CheckBox();
+            this.cbCsrUsage = new System.Windows.Forms.CheckedListBox();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.cbCsrExtendedUsageCritical = new System.Windows.Forms.CheckBox();
+            this.cbCsrExtendedUsage = new System.Windows.Forms.CheckedListBox();
             this.label2 = new System.Windows.Forms.Label();
             this.txtCsrDomains = new System.Windows.Forms.TextBox();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.tsslStatus = new System.Windows.Forms.ToolStripStatusLabel();
+            this.tspbProgress = new System.Windows.Forms.ToolStripProgressBar();
             chName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             chInfo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tpCsrs.SuspendLayout();
-            this.groupBox7.SuspendLayout();
-            this.groupBox6.SuspendLayout();
-            this.groupBox5.SuspendLayout();
-            this.groupBox4.SuspendLayout();
-            this.gbKeyBits.SuspendLayout();
-            this.groupBox3.SuspendLayout();
+            this.flowLayoutPanel1.SuspendLayout();
+            this.groupBox8.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            this.gbKeyBits.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.groupBox6.SuspendLayout();
+            this.groupBox7.SuspendLayout();
+            this.groupBox4.SuspendLayout();
+            this.groupBox5.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // chName
@@ -109,7 +118,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtWorkingDir.Location = new System.Drawing.Point(116, 12);
             this.txtWorkingDir.Name = "txtWorkingDir";
-            this.txtWorkingDir.Size = new System.Drawing.Size(1101, 20);
+            this.txtWorkingDir.Size = new System.Drawing.Size(993, 20);
             this.txtWorkingDir.TabIndex = 0;
             this.txtWorkingDir.Text = "C:\\Users\\Cillie Malan\\Google Drive\\myneca";
             this.txtWorkingDir.TextChanged += new System.EventHandler(this.txtWorkingDir_TextChanged);
@@ -126,7 +135,7 @@
             // btnBrowse
             // 
             this.btnBrowse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnBrowse.Location = new System.Drawing.Point(1223, 10);
+            this.btnBrowse.Location = new System.Drawing.Point(1115, 10);
             this.btnBrowse.Name = "btnBrowse";
             this.btnBrowse.Size = new System.Drawing.Size(75, 23);
             this.btnBrowse.TabIndex = 2;
@@ -151,15 +160,14 @@
             // 
             // tabControl1
             // 
-            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tpCsrs);
             this.tabControl1.Location = new System.Drawing.Point(12, 39);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1286, 602);
+            this.tabControl1.Size = new System.Drawing.Size(1178, 602);
             this.tabControl1.TabIndex = 4;
             // 
             // tabPage1
@@ -168,315 +176,79 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1278, 576);
+            this.tabPage1.Size = new System.Drawing.Size(1170, 576);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Inspect";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // tpCsrs
             // 
-            this.tpCsrs.Controls.Add(this.groupBox7);
-            this.tpCsrs.Controls.Add(this.groupBox6);
-            this.tpCsrs.Controls.Add(this.groupBox5);
-            this.tpCsrs.Controls.Add(this.btnCsrProcess);
-            this.tpCsrs.Controls.Add(this.groupBox4);
-            this.tpCsrs.Controls.Add(this.gbKeyBits);
-            this.tpCsrs.Controls.Add(this.groupBox3);
-            this.tpCsrs.Controls.Add(this.groupBox2);
-            this.tpCsrs.Controls.Add(this.groupBox1);
+            this.tpCsrs.Controls.Add(this.flowLayoutPanel1);
             this.tpCsrs.Controls.Add(this.label2);
             this.tpCsrs.Controls.Add(this.txtCsrDomains);
             this.tpCsrs.Location = new System.Drawing.Point(4, 22);
             this.tpCsrs.Name = "tpCsrs";
             this.tpCsrs.Padding = new System.Windows.Forms.Padding(3);
-            this.tpCsrs.Size = new System.Drawing.Size(1278, 576);
+            this.tpCsrs.Size = new System.Drawing.Size(1170, 576);
             this.tpCsrs.TabIndex = 1;
             this.tpCsrs.Text = "Generate CSRs";
             this.tpCsrs.UseVisualStyleBackColor = true;
             // 
-            // groupBox7
+            // flowLayoutPanel1
             // 
-            this.groupBox7.Controls.Add(this.cbCsrAltNamesInclude);
-            this.groupBox7.Controls.Add(this.cbCsrAltNamesCritical);
-            this.groupBox7.Location = new System.Drawing.Point(377, 236);
-            this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(254, 68);
-            this.groupBox7.TabIndex = 11;
-            this.groupBox7.TabStop = false;
-            this.groupBox7.Text = "Subject Alternative Name";
+            this.flowLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.flowLayoutPanel1.Controls.Add(this.groupBox8);
+            this.flowLayoutPanel1.Controls.Add(this.groupBox2);
+            this.flowLayoutPanel1.Controls.Add(this.groupBox3);
+            this.flowLayoutPanel1.Controls.Add(this.gbKeyBits);
+            this.flowLayoutPanel1.Controls.Add(this.groupBox1);
+            this.flowLayoutPanel1.Controls.Add(this.groupBox6);
+            this.flowLayoutPanel1.Controls.Add(this.groupBox7);
+            this.flowLayoutPanel1.Controls.Add(this.groupBox4);
+            this.flowLayoutPanel1.Controls.Add(this.groupBox5);
+            this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(377, 6);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(787, 564);
+            this.flowLayoutPanel1.TabIndex = 12;
             // 
-            // cbCsrAltNamesInclude
+            // groupBox8
             // 
-            this.cbCsrAltNamesInclude.AutoSize = true;
-            this.cbCsrAltNamesInclude.Checked = true;
-            this.cbCsrAltNamesInclude.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbCsrAltNamesInclude.Location = new System.Drawing.Point(13, 19);
-            this.cbCsrAltNamesInclude.Name = "cbCsrAltNamesInclude";
-            this.cbCsrAltNamesInclude.Size = new System.Drawing.Size(189, 17);
-            this.cbCsrAltNamesInclude.TabIndex = 16;
-            this.cbCsrAltNamesInclude.Text = "Include Subject Alternative Names";
-            this.cbCsrAltNamesInclude.UseVisualStyleBackColor = true;
+            this.groupBox8.Controls.Add(this.label9);
+            this.groupBox8.Controls.Add(this.btnCsrProcess);
+            this.groupBox8.Location = new System.Drawing.Point(3, 3);
+            this.groupBox8.Name = "groupBox8";
+            this.groupBox8.Size = new System.Drawing.Size(254, 97);
+            this.groupBox8.TabIndex = 13;
+            this.groupBox8.TabStop = false;
+            this.groupBox8.Text = "Process";
             // 
-            // cbCsrAltNamesCritical
+            // label9
             // 
-            this.cbCsrAltNamesCritical.AutoSize = true;
-            this.cbCsrAltNamesCritical.Location = new System.Drawing.Point(13, 42);
-            this.cbCsrAltNamesCritical.Name = "cbCsrAltNamesCritical";
-            this.cbCsrAltNamesCritical.Size = new System.Drawing.Size(139, 17);
-            this.cbCsrAltNamesCritical.TabIndex = 15;
-            this.cbCsrAltNamesCritical.Text = "This Extension is Critical";
-            this.cbCsrAltNamesCritical.UseVisualStyleBackColor = true;
-            // 
-            // groupBox6
-            // 
-            this.groupBox6.Controls.Add(this.txtCsrBasicConstraintPathLength);
-            this.groupBox6.Controls.Add(this.lblCsrBasicConstraintPathLength);
-            this.groupBox6.Controls.Add(this.rbCsrBasicConstraintCA);
-            this.groupBox6.Controls.Add(this.rbCsrBasicConstraintEndEntity);
-            this.groupBox6.Controls.Add(this.rbCsrBasicConstraintExclude);
-            this.groupBox6.Controls.Add(this.cbCsrBasicConstraintCritical);
-            this.groupBox6.Location = new System.Drawing.Point(637, 194);
-            this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(254, 139);
-            this.groupBox6.TabIndex = 10;
-            this.groupBox6.TabStop = false;
-            this.groupBox6.Text = "Basic Constraints";
-            // 
-            // txtCsrBasicConstraintPathLength
-            // 
-            this.txtCsrBasicConstraintPathLength.Enabled = false;
-            this.txtCsrBasicConstraintPathLength.Location = new System.Drawing.Point(77, 88);
-            this.txtCsrBasicConstraintPathLength.Name = "txtCsrBasicConstraintPathLength";
-            this.txtCsrBasicConstraintPathLength.Size = new System.Drawing.Size(59, 20);
-            this.txtCsrBasicConstraintPathLength.TabIndex = 14;
-            this.txtCsrBasicConstraintPathLength.Text = "0";
-            // 
-            // lblCsrBasicConstraintPathLength
-            // 
-            this.lblCsrBasicConstraintPathLength.AutoSize = true;
-            this.lblCsrBasicConstraintPathLength.Enabled = false;
-            this.lblCsrBasicConstraintPathLength.Location = new System.Drawing.Point(6, 91);
-            this.lblCsrBasicConstraintPathLength.Name = "lblCsrBasicConstraintPathLength";
-            this.lblCsrBasicConstraintPathLength.Size = new System.Drawing.Size(65, 13);
-            this.lblCsrBasicConstraintPathLength.TabIndex = 13;
-            this.lblCsrBasicConstraintPathLength.Text = "Path Length";
-            // 
-            // rbCsrBasicConstraintCA
-            // 
-            this.rbCsrBasicConstraintCA.AutoSize = true;
-            this.rbCsrBasicConstraintCA.Location = new System.Drawing.Point(6, 65);
-            this.rbCsrBasicConstraintCA.Name = "rbCsrBasicConstraintCA";
-            this.rbCsrBasicConstraintCA.Size = new System.Drawing.Size(116, 17);
-            this.rbCsrBasicConstraintCA.TabIndex = 10;
-            this.rbCsrBasicConstraintCA.Text = "Certificate Authority";
-            this.rbCsrBasicConstraintCA.UseVisualStyleBackColor = true;
-            this.rbCsrBasicConstraintCA.Click += new System.EventHandler(this.rbCsrBasicConstraint_Click);
-            // 
-            // rbCsrBasicConstraintEndEntity
-            // 
-            this.rbCsrBasicConstraintEndEntity.AutoSize = true;
-            this.rbCsrBasicConstraintEndEntity.Checked = true;
-            this.rbCsrBasicConstraintEndEntity.Location = new System.Drawing.Point(6, 42);
-            this.rbCsrBasicConstraintEndEntity.Name = "rbCsrBasicConstraintEndEntity";
-            this.rbCsrBasicConstraintEndEntity.Size = new System.Drawing.Size(72, 17);
-            this.rbCsrBasicConstraintEndEntity.TabIndex = 10;
-            this.rbCsrBasicConstraintEndEntity.TabStop = true;
-            this.rbCsrBasicConstraintEndEntity.Text = "End entity";
-            this.rbCsrBasicConstraintEndEntity.UseVisualStyleBackColor = true;
-            this.rbCsrBasicConstraintEndEntity.Click += new System.EventHandler(this.rbCsrBasicConstraint_Click);
-            // 
-            // rbCsrBasicConstraintExclude
-            // 
-            this.rbCsrBasicConstraintExclude.AutoSize = true;
-            this.rbCsrBasicConstraintExclude.Location = new System.Drawing.Point(6, 19);
-            this.rbCsrBasicConstraintExclude.Name = "rbCsrBasicConstraintExclude";
-            this.rbCsrBasicConstraintExclude.Size = new System.Drawing.Size(130, 17);
-            this.rbCsrBasicConstraintExclude.TabIndex = 10;
-            this.rbCsrBasicConstraintExclude.Text = "Exclude this extension";
-            this.rbCsrBasicConstraintExclude.UseVisualStyleBackColor = true;
-            this.rbCsrBasicConstraintExclude.Click += new System.EventHandler(this.rbCsrBasicConstraint_Click);
-            // 
-            // cbCsrBasicConstraintCritical
-            // 
-            this.cbCsrBasicConstraintCritical.AutoSize = true;
-            this.cbCsrBasicConstraintCritical.Checked = true;
-            this.cbCsrBasicConstraintCritical.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbCsrBasicConstraintCritical.Location = new System.Drawing.Point(6, 114);
-            this.cbCsrBasicConstraintCritical.Name = "cbCsrBasicConstraintCritical";
-            this.cbCsrBasicConstraintCritical.Size = new System.Drawing.Size(139, 17);
-            this.cbCsrBasicConstraintCritical.TabIndex = 9;
-            this.cbCsrBasicConstraintCritical.Text = "This Extension is Critical";
-            this.cbCsrBasicConstraintCritical.UseVisualStyleBackColor = true;
-            // 
-            // groupBox5
-            // 
-            this.groupBox5.Controls.Add(this.cbCsrExtendedUsageCritical);
-            this.groupBox5.Controls.Add(this.cbCsrExtendedUsage);
-            this.groupBox5.Location = new System.Drawing.Point(637, 339);
-            this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(254, 204);
-            this.groupBox5.TabIndex = 9;
-            this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "Extened Usage";
-            // 
-            // cbCsrExtendedUsageCritical
-            // 
-            this.cbCsrExtendedUsageCritical.AutoSize = true;
-            this.cbCsrExtendedUsageCritical.Location = new System.Drawing.Point(6, 179);
-            this.cbCsrExtendedUsageCritical.Name = "cbCsrExtendedUsageCritical";
-            this.cbCsrExtendedUsageCritical.Size = new System.Drawing.Size(139, 17);
-            this.cbCsrExtendedUsageCritical.TabIndex = 9;
-            this.cbCsrExtendedUsageCritical.Text = "This Extension is Critical";
-            this.cbCsrExtendedUsageCritical.UseVisualStyleBackColor = true;
-            // 
-            // cbCsrExtendedUsage
-            // 
-            this.cbCsrExtendedUsage.FormattingEnabled = true;
-            this.cbCsrExtendedUsage.Items.AddRange(new object[] {
-            "SSL/TLS Web Server Authentication",
-            "SSL/TLS Web Client Authentication",
-            "Code signing",
-            "E-mail Protection (S/MIME)",
-            "Trusted Timestamping",
-            "OCSP Signing",
-            "ipsec Internet Key Exchange",
-            "Microsoft Individual Code Signing (authenticode)",
-            "Microsoft Commercial Code Signing (authenticode)",
-            "Microsoft Trust List Signing",
-            "Microsoft Encrypted File System"});
-            this.cbCsrExtendedUsage.Location = new System.Drawing.Point(6, 19);
-            this.cbCsrExtendedUsage.Name = "cbCsrExtendedUsage";
-            this.cbCsrExtendedUsage.Size = new System.Drawing.Size(242, 154);
-            this.cbCsrExtendedUsage.TabIndex = 8;
-            this.cbCsrExtendedUsage.Click += new System.EventHandler(this.cbCsrExtendedUsage_Click);
+            this.label9.Location = new System.Drawing.Point(6, 16);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(242, 45);
+            this.label9.TabIndex = 8;
+            this.label9.Text = "Clicking this button will process all the common names listed in the box to the l" +
+    "eft. Any existing CSRs will be overwritten.";
             // 
             // btnCsrProcess
             // 
-            this.btnCsrProcess.Location = new System.Drawing.Point(377, 547);
+            this.btnCsrProcess.Location = new System.Drawing.Point(9, 61);
             this.btnCsrProcess.Name = "btnCsrProcess";
-            this.btnCsrProcess.Size = new System.Drawing.Size(75, 23);
+            this.btnCsrProcess.Size = new System.Drawing.Size(239, 23);
             this.btnCsrProcess.TabIndex = 7;
             this.btnCsrProcess.Text = "Process";
             this.btnCsrProcess.UseVisualStyleBackColor = true;
             this.btnCsrProcess.Click += new System.EventHandler(this.btnCsrProcess_Click);
             // 
-            // groupBox4
-            // 
-            this.groupBox4.Controls.Add(this.cbCsrCertUsageCritical);
-            this.groupBox4.Controls.Add(this.cbCsrUsage);
-            this.groupBox4.Location = new System.Drawing.Point(377, 310);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(254, 203);
-            this.groupBox4.TabIndex = 6;
-            this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Certificate Usage";
-            // 
-            // cbCsrCertUsageCritical
-            // 
-            this.cbCsrCertUsageCritical.AutoSize = true;
-            this.cbCsrCertUsageCritical.Checked = true;
-            this.cbCsrCertUsageCritical.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbCsrCertUsageCritical.Location = new System.Drawing.Point(6, 179);
-            this.cbCsrCertUsageCritical.Name = "cbCsrCertUsageCritical";
-            this.cbCsrCertUsageCritical.Size = new System.Drawing.Size(139, 17);
-            this.cbCsrCertUsageCritical.TabIndex = 8;
-            this.cbCsrCertUsageCritical.Text = "This Extension is Critical";
-            this.cbCsrCertUsageCritical.UseVisualStyleBackColor = true;
-            // 
-            // cbCsrUsage
-            // 
-            this.cbCsrUsage.FormattingEnabled = true;
-            this.cbCsrUsage.Items.AddRange(new object[] {
-            "Digital Signature",
-            "Non Repudiation",
-            "Key Encipherment",
-            "Data Encipherment",
-            "Key Agreement",
-            "Key Certificate Sign",
-            "CRL Sign",
-            "Encipher Only",
-            "Decipher Only"});
-            this.cbCsrUsage.Location = new System.Drawing.Point(6, 19);
-            this.cbCsrUsage.Name = "cbCsrUsage";
-            this.cbCsrUsage.Size = new System.Drawing.Size(242, 154);
-            this.cbCsrUsage.TabIndex = 7;
-            this.cbCsrUsage.Click += new System.EventHandler(this.cbCsrExtendedUsage_Click);
-            // 
-            // gbKeyBits
-            // 
-            this.gbKeyBits.Controls.Add(this.cbCsKeyBits);
-            this.gbKeyBits.Location = new System.Drawing.Point(377, 178);
-            this.gbKeyBits.Name = "gbKeyBits";
-            this.gbKeyBits.Size = new System.Drawing.Size(254, 52);
-            this.gbKeyBits.TabIndex = 5;
-            this.gbKeyBits.TabStop = false;
-            this.gbKeyBits.Text = "Key Parameters";
-            // 
-            // cbCsKeyBits
-            // 
-            this.cbCsKeyBits.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbCsKeyBits.FormattingEnabled = true;
-            this.cbCsKeyBits.Items.AddRange(new object[] {
-            "1024",
-            "2048",
-            "4096"});
-            this.cbCsKeyBits.Location = new System.Drawing.Point(6, 19);
-            this.cbCsKeyBits.Name = "cbCsKeyBits";
-            this.cbCsKeyBits.Size = new System.Drawing.Size(242, 21);
-            this.cbCsKeyBits.TabIndex = 1;
-            // 
-            // groupBox3
-            // 
-            this.groupBox3.Controls.Add(this.rdCsrKeyEcdsa);
-            this.groupBox3.Controls.Add(this.rdCsrKeyDsa);
-            this.groupBox3.Controls.Add(this.rdCsrKeyRsa);
-            this.groupBox3.Location = new System.Drawing.Point(377, 82);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(254, 90);
-            this.groupBox3.TabIndex = 4;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Key Type";
-            // 
-            // rdCsrKeyEcdsa
-            // 
-            this.rdCsrKeyEcdsa.AutoSize = true;
-            this.rdCsrKeyEcdsa.Location = new System.Drawing.Point(6, 65);
-            this.rdCsrKeyEcdsa.Name = "rdCsrKeyEcdsa";
-            this.rdCsrKeyEcdsa.Size = new System.Drawing.Size(61, 17);
-            this.rdCsrKeyEcdsa.TabIndex = 0;
-            this.rdCsrKeyEcdsa.Text = "ECDSA";
-            this.rdCsrKeyEcdsa.UseVisualStyleBackColor = true;
-            this.rdCsrKeyEcdsa.CheckedChanged += new System.EventHandler(this.rdCsrKeyDsa_CheckedChanged);
-            // 
-            // rdCsrKeyDsa
-            // 
-            this.rdCsrKeyDsa.AutoSize = true;
-            this.rdCsrKeyDsa.Location = new System.Drawing.Point(6, 42);
-            this.rdCsrKeyDsa.Name = "rdCsrKeyDsa";
-            this.rdCsrKeyDsa.Size = new System.Drawing.Size(77, 17);
-            this.rdCsrKeyDsa.TabIndex = 0;
-            this.rdCsrKeyDsa.Text = "DSA (slow)";
-            this.rdCsrKeyDsa.UseVisualStyleBackColor = true;
-            this.rdCsrKeyDsa.CheckedChanged += new System.EventHandler(this.rdCsrKeyDsa_CheckedChanged);
-            // 
-            // rdCsrKeyRsa
-            // 
-            this.rdCsrKeyRsa.AutoSize = true;
-            this.rdCsrKeyRsa.Checked = true;
-            this.rdCsrKeyRsa.Location = new System.Drawing.Point(6, 19);
-            this.rdCsrKeyRsa.Name = "rdCsrKeyRsa";
-            this.rdCsrKeyRsa.Size = new System.Drawing.Size(47, 17);
-            this.rdCsrKeyRsa.TabIndex = 0;
-            this.rdCsrKeyRsa.TabStop = true;
-            this.rdCsrKeyRsa.Text = "RSA";
-            this.rdCsrKeyRsa.UseVisualStyleBackColor = true;
-            this.rdCsrKeyRsa.CheckedChanged += new System.EventHandler(this.rdCsrKeyDsa_CheckedChanged);
-            // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.rdCsrGenerateNewKey);
             this.groupBox2.Controls.Add(this.rdCsrUseExistingKey);
-            this.groupBox2.Location = new System.Drawing.Point(377, 6);
+            this.groupBox2.Location = new System.Drawing.Point(3, 106);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(254, 70);
             this.groupBox2.TabIndex = 3;
@@ -505,6 +277,76 @@
             this.rdCsrUseExistingKey.Text = "Use existing key if exists";
             this.rdCsrUseExistingKey.UseVisualStyleBackColor = true;
             // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.rdCsrKeyEcdsa);
+            this.groupBox3.Controls.Add(this.rdCsrKeyDsa);
+            this.groupBox3.Controls.Add(this.rdCsrKeyRsa);
+            this.groupBox3.Location = new System.Drawing.Point(3, 182);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(254, 90);
+            this.groupBox3.TabIndex = 4;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Key Type";
+            // 
+            // rdCsrKeyEcdsa
+            // 
+            this.rdCsrKeyEcdsa.AutoSize = true;
+            this.rdCsrKeyEcdsa.Location = new System.Drawing.Point(6, 65);
+            this.rdCsrKeyEcdsa.Name = "rdCsrKeyEcdsa";
+            this.rdCsrKeyEcdsa.Size = new System.Drawing.Size(87, 17);
+            this.rdCsrKeyEcdsa.TabIndex = 0;
+            this.rdCsrKeyEcdsa.Text = "ECDSA (fast)";
+            this.rdCsrKeyEcdsa.UseVisualStyleBackColor = true;
+            this.rdCsrKeyEcdsa.CheckedChanged += new System.EventHandler(this.rdCsrKeyDsa_CheckedChanged);
+            // 
+            // rdCsrKeyDsa
+            // 
+            this.rdCsrKeyDsa.AutoSize = true;
+            this.rdCsrKeyDsa.Location = new System.Drawing.Point(6, 42);
+            this.rdCsrKeyDsa.Name = "rdCsrKeyDsa";
+            this.rdCsrKeyDsa.Size = new System.Drawing.Size(77, 17);
+            this.rdCsrKeyDsa.TabIndex = 0;
+            this.rdCsrKeyDsa.Text = "DSA (slow)";
+            this.rdCsrKeyDsa.UseVisualStyleBackColor = true;
+            this.rdCsrKeyDsa.CheckedChanged += new System.EventHandler(this.rdCsrKeyDsa_CheckedChanged);
+            // 
+            // rdCsrKeyRsa
+            // 
+            this.rdCsrKeyRsa.AutoSize = true;
+            this.rdCsrKeyRsa.Checked = true;
+            this.rdCsrKeyRsa.Location = new System.Drawing.Point(6, 19);
+            this.rdCsrKeyRsa.Name = "rdCsrKeyRsa";
+            this.rdCsrKeyRsa.Size = new System.Drawing.Size(100, 17);
+            this.rdCsrKeyRsa.TabIndex = 0;
+            this.rdCsrKeyRsa.TabStop = true;
+            this.rdCsrKeyRsa.Text = "RSA (very slow)";
+            this.rdCsrKeyRsa.UseVisualStyleBackColor = true;
+            this.rdCsrKeyRsa.CheckedChanged += new System.EventHandler(this.rdCsrKeyDsa_CheckedChanged);
+            // 
+            // gbKeyBits
+            // 
+            this.gbKeyBits.Controls.Add(this.cbCsKeyBits);
+            this.gbKeyBits.Location = new System.Drawing.Point(3, 278);
+            this.gbKeyBits.Name = "gbKeyBits";
+            this.gbKeyBits.Size = new System.Drawing.Size(254, 52);
+            this.gbKeyBits.TabIndex = 5;
+            this.gbKeyBits.TabStop = false;
+            this.gbKeyBits.Text = "Key Parameters";
+            // 
+            // cbCsKeyBits
+            // 
+            this.cbCsKeyBits.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbCsKeyBits.FormattingEnabled = true;
+            this.cbCsKeyBits.Items.AddRange(new object[] {
+            "1024",
+            "2048",
+            "4096"});
+            this.cbCsKeyBits.Location = new System.Drawing.Point(6, 19);
+            this.cbCsKeyBits.Name = "cbCsKeyBits";
+            this.cbCsKeyBits.Size = new System.Drawing.Size(242, 21);
+            this.cbCsKeyBits.TabIndex = 1;
+            // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.label3);
@@ -519,7 +361,7 @@
             this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.label4);
-            this.groupBox1.Location = new System.Drawing.Point(637, 6);
+            this.groupBox1.Location = new System.Drawing.Point(3, 336);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(254, 182);
             this.groupBox1.TabIndex = 2;
@@ -628,6 +470,204 @@
             this.label4.TabIndex = 1;
             this.label4.Text = "Organization";
             // 
+            // groupBox6
+            // 
+            this.groupBox6.Controls.Add(this.txtCsrBasicConstraintPathLength);
+            this.groupBox6.Controls.Add(this.lblCsrBasicConstraintPathLength);
+            this.groupBox6.Controls.Add(this.rbCsrBasicConstraintCA);
+            this.groupBox6.Controls.Add(this.rbCsrBasicConstraintEndEntity);
+            this.groupBox6.Controls.Add(this.rbCsrBasicConstraintExclude);
+            this.groupBox6.Controls.Add(this.cbCsrBasicConstraintCritical);
+            this.groupBox6.Location = new System.Drawing.Point(263, 3);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Size = new System.Drawing.Size(254, 139);
+            this.groupBox6.TabIndex = 10;
+            this.groupBox6.TabStop = false;
+            this.groupBox6.Text = "Basic Constraints";
+            // 
+            // txtCsrBasicConstraintPathLength
+            // 
+            this.txtCsrBasicConstraintPathLength.Enabled = false;
+            this.txtCsrBasicConstraintPathLength.Location = new System.Drawing.Point(77, 88);
+            this.txtCsrBasicConstraintPathLength.Name = "txtCsrBasicConstraintPathLength";
+            this.txtCsrBasicConstraintPathLength.Size = new System.Drawing.Size(59, 20);
+            this.txtCsrBasicConstraintPathLength.TabIndex = 14;
+            this.txtCsrBasicConstraintPathLength.Text = "0";
+            // 
+            // lblCsrBasicConstraintPathLength
+            // 
+            this.lblCsrBasicConstraintPathLength.AutoSize = true;
+            this.lblCsrBasicConstraintPathLength.Enabled = false;
+            this.lblCsrBasicConstraintPathLength.Location = new System.Drawing.Point(6, 91);
+            this.lblCsrBasicConstraintPathLength.Name = "lblCsrBasicConstraintPathLength";
+            this.lblCsrBasicConstraintPathLength.Size = new System.Drawing.Size(65, 13);
+            this.lblCsrBasicConstraintPathLength.TabIndex = 13;
+            this.lblCsrBasicConstraintPathLength.Text = "Path Length";
+            // 
+            // rbCsrBasicConstraintCA
+            // 
+            this.rbCsrBasicConstraintCA.AutoSize = true;
+            this.rbCsrBasicConstraintCA.Location = new System.Drawing.Point(6, 65);
+            this.rbCsrBasicConstraintCA.Name = "rbCsrBasicConstraintCA";
+            this.rbCsrBasicConstraintCA.Size = new System.Drawing.Size(116, 17);
+            this.rbCsrBasicConstraintCA.TabIndex = 10;
+            this.rbCsrBasicConstraintCA.Text = "Certificate Authority";
+            this.rbCsrBasicConstraintCA.UseVisualStyleBackColor = true;
+            this.rbCsrBasicConstraintCA.Click += new System.EventHandler(this.rbCsrBasicConstraint_Click);
+            // 
+            // rbCsrBasicConstraintEndEntity
+            // 
+            this.rbCsrBasicConstraintEndEntity.AutoSize = true;
+            this.rbCsrBasicConstraintEndEntity.Checked = true;
+            this.rbCsrBasicConstraintEndEntity.Location = new System.Drawing.Point(6, 42);
+            this.rbCsrBasicConstraintEndEntity.Name = "rbCsrBasicConstraintEndEntity";
+            this.rbCsrBasicConstraintEndEntity.Size = new System.Drawing.Size(72, 17);
+            this.rbCsrBasicConstraintEndEntity.TabIndex = 10;
+            this.rbCsrBasicConstraintEndEntity.TabStop = true;
+            this.rbCsrBasicConstraintEndEntity.Text = "End entity";
+            this.rbCsrBasicConstraintEndEntity.UseVisualStyleBackColor = true;
+            this.rbCsrBasicConstraintEndEntity.Click += new System.EventHandler(this.rbCsrBasicConstraint_Click);
+            // 
+            // rbCsrBasicConstraintExclude
+            // 
+            this.rbCsrBasicConstraintExclude.AutoSize = true;
+            this.rbCsrBasicConstraintExclude.Location = new System.Drawing.Point(6, 19);
+            this.rbCsrBasicConstraintExclude.Name = "rbCsrBasicConstraintExclude";
+            this.rbCsrBasicConstraintExclude.Size = new System.Drawing.Size(130, 17);
+            this.rbCsrBasicConstraintExclude.TabIndex = 10;
+            this.rbCsrBasicConstraintExclude.Text = "Exclude this extension";
+            this.rbCsrBasicConstraintExclude.UseVisualStyleBackColor = true;
+            this.rbCsrBasicConstraintExclude.Click += new System.EventHandler(this.rbCsrBasicConstraint_Click);
+            // 
+            // cbCsrBasicConstraintCritical
+            // 
+            this.cbCsrBasicConstraintCritical.AutoSize = true;
+            this.cbCsrBasicConstraintCritical.Checked = true;
+            this.cbCsrBasicConstraintCritical.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbCsrBasicConstraintCritical.Location = new System.Drawing.Point(6, 114);
+            this.cbCsrBasicConstraintCritical.Name = "cbCsrBasicConstraintCritical";
+            this.cbCsrBasicConstraintCritical.Size = new System.Drawing.Size(139, 17);
+            this.cbCsrBasicConstraintCritical.TabIndex = 9;
+            this.cbCsrBasicConstraintCritical.Text = "This Extension is Critical";
+            this.cbCsrBasicConstraintCritical.UseVisualStyleBackColor = true;
+            // 
+            // groupBox7
+            // 
+            this.groupBox7.Controls.Add(this.cbCsrAltNamesInclude);
+            this.groupBox7.Controls.Add(this.cbCsrAltNamesCritical);
+            this.groupBox7.Location = new System.Drawing.Point(263, 148);
+            this.groupBox7.Name = "groupBox7";
+            this.groupBox7.Size = new System.Drawing.Size(254, 68);
+            this.groupBox7.TabIndex = 11;
+            this.groupBox7.TabStop = false;
+            this.groupBox7.Text = "Subject Alternative Name";
+            // 
+            // cbCsrAltNamesInclude
+            // 
+            this.cbCsrAltNamesInclude.AutoSize = true;
+            this.cbCsrAltNamesInclude.Checked = true;
+            this.cbCsrAltNamesInclude.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbCsrAltNamesInclude.Location = new System.Drawing.Point(13, 19);
+            this.cbCsrAltNamesInclude.Name = "cbCsrAltNamesInclude";
+            this.cbCsrAltNamesInclude.Size = new System.Drawing.Size(189, 17);
+            this.cbCsrAltNamesInclude.TabIndex = 16;
+            this.cbCsrAltNamesInclude.Text = "Include Subject Alternative Names";
+            this.cbCsrAltNamesInclude.UseVisualStyleBackColor = true;
+            // 
+            // cbCsrAltNamesCritical
+            // 
+            this.cbCsrAltNamesCritical.AutoSize = true;
+            this.cbCsrAltNamesCritical.Location = new System.Drawing.Point(13, 42);
+            this.cbCsrAltNamesCritical.Name = "cbCsrAltNamesCritical";
+            this.cbCsrAltNamesCritical.Size = new System.Drawing.Size(139, 17);
+            this.cbCsrAltNamesCritical.TabIndex = 15;
+            this.cbCsrAltNamesCritical.Text = "This Extension is Critical";
+            this.cbCsrAltNamesCritical.UseVisualStyleBackColor = true;
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.cbCsrCertUsageCritical);
+            this.groupBox4.Controls.Add(this.cbCsrUsage);
+            this.groupBox4.Location = new System.Drawing.Point(263, 222);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(254, 203);
+            this.groupBox4.TabIndex = 6;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Certificate Usage";
+            // 
+            // cbCsrCertUsageCritical
+            // 
+            this.cbCsrCertUsageCritical.AutoSize = true;
+            this.cbCsrCertUsageCritical.Checked = true;
+            this.cbCsrCertUsageCritical.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbCsrCertUsageCritical.Location = new System.Drawing.Point(6, 179);
+            this.cbCsrCertUsageCritical.Name = "cbCsrCertUsageCritical";
+            this.cbCsrCertUsageCritical.Size = new System.Drawing.Size(139, 17);
+            this.cbCsrCertUsageCritical.TabIndex = 8;
+            this.cbCsrCertUsageCritical.Text = "This Extension is Critical";
+            this.cbCsrCertUsageCritical.UseVisualStyleBackColor = true;
+            // 
+            // cbCsrUsage
+            // 
+            this.cbCsrUsage.FormattingEnabled = true;
+            this.cbCsrUsage.Items.AddRange(new object[] {
+            "Digital Signature",
+            "Non Repudiation",
+            "Key Encipherment",
+            "Data Encipherment",
+            "Key Agreement",
+            "Key Certificate Sign",
+            "CRL Sign",
+            "Encipher Only",
+            "Decipher Only"});
+            this.cbCsrUsage.Location = new System.Drawing.Point(6, 19);
+            this.cbCsrUsage.Name = "cbCsrUsage";
+            this.cbCsrUsage.Size = new System.Drawing.Size(242, 154);
+            this.cbCsrUsage.TabIndex = 7;
+            this.cbCsrUsage.Click += new System.EventHandler(this.cbCsrExtendedUsage_Click);
+            // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.cbCsrExtendedUsageCritical);
+            this.groupBox5.Controls.Add(this.cbCsrExtendedUsage);
+            this.groupBox5.Location = new System.Drawing.Point(523, 3);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(254, 204);
+            this.groupBox5.TabIndex = 9;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Extened Usage";
+            // 
+            // cbCsrExtendedUsageCritical
+            // 
+            this.cbCsrExtendedUsageCritical.AutoSize = true;
+            this.cbCsrExtendedUsageCritical.Location = new System.Drawing.Point(6, 179);
+            this.cbCsrExtendedUsageCritical.Name = "cbCsrExtendedUsageCritical";
+            this.cbCsrExtendedUsageCritical.Size = new System.Drawing.Size(139, 17);
+            this.cbCsrExtendedUsageCritical.TabIndex = 9;
+            this.cbCsrExtendedUsageCritical.Text = "This Extension is Critical";
+            this.cbCsrExtendedUsageCritical.UseVisualStyleBackColor = true;
+            // 
+            // cbCsrExtendedUsage
+            // 
+            this.cbCsrExtendedUsage.FormattingEnabled = true;
+            this.cbCsrExtendedUsage.Items.AddRange(new object[] {
+            "SSL/TLS Web Server Authentication",
+            "SSL/TLS Web Client Authentication",
+            "Code signing",
+            "E-mail Protection (S/MIME)",
+            "Trusted Timestamping",
+            "OCSP Signing",
+            "ipsec Internet Key Exchange",
+            "Microsoft Individual Code Signing (authenticode)",
+            "Microsoft Commercial Code Signing (authenticode)",
+            "Microsoft Trust List Signing",
+            "Microsoft Encrypted File System"});
+            this.cbCsrExtendedUsage.Location = new System.Drawing.Point(6, 19);
+            this.cbCsrExtendedUsage.Name = "cbCsrExtendedUsage";
+            this.cbCsrExtendedUsage.Size = new System.Drawing.Size(242, 154);
+            this.cbCsrExtendedUsage.TabIndex = 8;
+            this.cbCsrExtendedUsage.Click += new System.EventHandler(this.cbCsrExtendedUsage_Click);
+            // 
             // label2
             // 
             this.label2.Location = new System.Drawing.Point(6, 3);
@@ -650,11 +690,35 @@
             this.txtCsrDomains.TabIndex = 0;
             this.txtCsrDomains.Text = "forexample.com, www.forexample.com";
             // 
+            // statusStrip1
+            // 
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsslStatus,
+            this.tspbProgress});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 677);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(1202, 22);
+            this.statusStrip1.TabIndex = 5;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // tsslStatus
+            // 
+            this.tsslStatus.Name = "tsslStatus";
+            this.tsslStatus.Size = new System.Drawing.Size(23, 17);
+            this.tsslStatus.Text = "OK";
+            // 
+            // tspbProgress
+            // 
+            this.tspbProgress.Name = "tspbProgress";
+            this.tspbProgress.Size = new System.Drawing.Size(100, 16);
+            this.tspbProgress.Visible = false;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1310, 653);
+            this.ClientSize = new System.Drawing.Size(1202, 699);
+            this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.btnBrowse);
             this.Controls.Add(this.label1);
@@ -666,21 +730,25 @@
             this.tabPage1.ResumeLayout(false);
             this.tpCsrs.ResumeLayout(false);
             this.tpCsrs.PerformLayout();
-            this.groupBox7.ResumeLayout(false);
-            this.groupBox7.PerformLayout();
-            this.groupBox6.ResumeLayout(false);
-            this.groupBox6.PerformLayout();
-            this.groupBox5.ResumeLayout(false);
-            this.groupBox5.PerformLayout();
-            this.groupBox4.ResumeLayout(false);
-            this.groupBox4.PerformLayout();
-            this.gbKeyBits.ResumeLayout(false);
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
+            this.flowLayoutPanel1.ResumeLayout(false);
+            this.groupBox8.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
+            this.gbKeyBits.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.groupBox6.ResumeLayout(false);
+            this.groupBox6.PerformLayout();
+            this.groupBox7.ResumeLayout(false);
+            this.groupBox7.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -736,6 +804,12 @@
         private System.Windows.Forms.GroupBox groupBox7;
         private System.Windows.Forms.CheckBox cbCsrAltNamesInclude;
         private System.Windows.Forms.CheckBox cbCsrAltNamesCritical;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.GroupBox groupBox8;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.ToolStripStatusLabel tsslStatus;
+        private System.Windows.Forms.ToolStripProgressBar tspbProgress;
     }
 }
 

@@ -279,16 +279,34 @@ namespace CryptoTool
             }
         }
 
-        private void btnCsrProcess_Click(object sender, EventArgs e)
+        private async void btnCsrProcess_Click(object sender, EventArgs _)
         {
-            var (keyGenerator, signerFactoryFactory) = CsrGetKeyGenerator();
+            Enabled = false;
+            try
+            {
+                await ProcessCsrGeneration();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            SetStatusAndProgress("OK");
+            SetupWatcher();
+            Enabled = true;
+        }
+
+        private async Task ProcessCsrGeneration()
+        {
+            SetStatusAndProgress("Generating CSRs");
+            var (keyGenerator, signerFactoryFactory) = await CsrGetKeyGeneratorAsync();
 
             var lines = txtCsrDomains.Text
                 .Split('\r')
                 .Select(x => x.Trim())
                 .Where(x => !string.IsNullOrEmpty(x))
                 .Select(x => x.Split(';', ',').Select(y => y.Trim()).Where(y => !string.IsNullOrEmpty(y)).ToArray())
-                .Where(x => x.Length >= 1);
+                .Where(x => x.Length >= 1)
+                .ToArray();
 
             string dnO = txtCsrSubjO.Text.Trim();
             string dnOU = txtCsrSubjOU.Text.Trim();
@@ -308,8 +326,11 @@ namespace CryptoTool
             if (!string.IsNullOrEmpty(dnL)) { dnOrdering.Add(X509Name.L); dnValues.Add(dnL); }
             if (!string.IsNullOrEmpty(dnEmail)) { dnOrdering.Add(X509Name.EmailAddress); dnValues.Add(dnEmail); }
 
+            int cnt = 0;
             foreach (var line in lines)
             {
+                SetStatusAndProgress("Generating CSRs", (double)cnt++ / lines.Length);
+
                 string cn = line[0];
                 string[] altnames = line;
 
@@ -330,7 +351,7 @@ namespace CryptoTool
 
                 if (key == null)
                 {
-                    key = keyGenerator.GenerateKeyPair();
+                    key = await Task.Factory.StartNew(() => keyGenerator.GenerateKeyPair());
                     WriteToPemFile(keyPath, key);
                 }
 
@@ -348,11 +369,11 @@ namespace CryptoTool
                     attrs,
                     key.Private);
 
-                if (!req.Verify()) throw new InvalidOperationException("request is not valid");
+                if (!req.Verify()) throw new InvalidOperationException("Generated an invalid CSR.");
                 WriteToPemFile(Path.Combine(CurrentWorkingDirectory, $"{cn}.csr"), req);
             }
 
-            SetupWatcher();
+            SetStatusAndProgress("Generating CSRs", 1);
         }
 
         private void WriteToPemFile(string filename, object obj)
@@ -377,7 +398,7 @@ namespace CryptoTool
             if (keyUsageExt != null) extGenerator.AddExtension(X509Extensions.KeyUsage, keyUsageCritical, keyUsageExt);
             if (extKeyUsageExt != null) extGenerator.AddExtension(X509Extensions.ExtendedKeyUsage, extKeyUsageCritical, extKeyUsageExt);
             if (altNamesExt != null) extGenerator.AddExtension(X509Extensions.SubjectAlternativeName, altNamesCritical, altNamesExt);
-            
+
             return extGenerator;
         }
 
@@ -426,7 +447,7 @@ namespace CryptoTool
             {
                 bc = new BasicConstraints(false);
             }
-            
+
             return (cbCsrBasicConstraintCritical.Checked, bc);
         }
 
@@ -446,46 +467,50 @@ namespace CryptoTool
             return (altNamesCritical, altNamesExt);
         }
 
-        private (IAsymmetricCipherKeyPairGenerator, Func<AsymmetricKeyParameter, ISignatureFactory>) CsrGetKeyGenerator()
-        {
-            var random = new SecureRandom();
-            var keyBitsString = cbCsKeyBits.Text.Replace(" (recommended)", "").Replace(" bits", "");
-            if (rdCsrKeyRsa.Checked)
+        private async Task<(IAsymmetricCipherKeyPairGenerator, Func<AsymmetricKeyParameter, ISignatureFactory>)> CsrGetKeyGeneratorAsync() =>
+            await Task.Factory.StartNew<(IAsymmetricCipherKeyPairGenerator, Func<AsymmetricKeyParameter, ISignatureFactory>)>(() =>
             {
-                int bits = int.Parse(keyBitsString);
-                var gen = new RsaKeyPairGenerator();
-                gen.Init(new KeyGenerationParameters(random, bits));
-                return (gen, k => new Asn1SignatureFactory("SHA256WITHRSA", k));
-            }
-            else if (rdCsrKeyDsa.Checked)
-            {
-                int L = int.Parse(keyBitsString);
-                int S;
-                switch (L)
+                var (rsaChecked, dsaChecked, ecdsaChecked) = ((bool, bool, bool))Invoke((Func<(bool, bool, bool)>)(
+                    () => (rdCsrKeyRsa.Checked, rdCsrKeyDsa.Checked, rdCsrKeyEcdsa.Checked)));
+
+                var random = new SecureRandom();
+                var keyBitsString = (string)Invoke((Func<string>)(() => cbCsKeyBits.Text.Replace(" (recommended)", "").Replace(" bits", "")));
+                if (rsaChecked)
                 {
-                    case 1024: S = 160; break;
-                    case 2048: S = 224; break;
-                    case 3072: S = 256; break;
-                    default: throw new NotSupportedException("invalid DSA bits");
+                    int bits = int.Parse(keyBitsString);
+                    var gen = new RsaKeyPairGenerator();
+                    gen.Init(new KeyGenerationParameters(random, bits));
+                    return (gen, k => new Asn1SignatureFactory("SHA256WITHRSA", k));
                 }
-                var gen = new DsaKeyPairGenerator();
-                var dsaParmGen = new DsaParametersGenerator(new Sha256Digest());
-                dsaParmGen.Init(new DsaParameterGenerationParameters(L, S, 80, random));
-                var dsaParms = dsaParmGen.GenerateParameters();
-                gen.Init(new DsaKeyGenerationParameters(random, dsaParms));
-                return (gen, k => new Asn1SignatureFactory("SHA256WITHDSA", k));
-            }
-            else
-            {
-                var gen = new ECKeyPairGenerator();
-                gen.Init(new ECKeyGenerationParameters(CustomNamedCurves.GetOid(keyBitsString), random));
-                return (gen, k => new Asn1SignatureFactory("SHA256WITHECDSA", k));
-            }
-        }
+                else if (rdCsrKeyDsa.Checked)
+                {
+                    int L = int.Parse(keyBitsString);
+                    int S;
+                    switch (L)
+                    {
+                        case 1024: S = 160; break;
+                        case 2048: S = 224; break;
+                        case 3072: S = 256; break;
+                        default: throw new NotSupportedException("invalid DSA bits");
+                    }
+                    var gen = new DsaKeyPairGenerator();
+                    var dsaParmGen = new DsaParametersGenerator(new Sha256Digest());
+                    dsaParmGen.Init(new DsaParameterGenerationParameters(L, S, 80, random));
+                    var dsaParms = dsaParmGen.GenerateParameters();
+                    gen.Init(new DsaKeyGenerationParameters(random, dsaParms));
+                    return (gen, k => new Asn1SignatureFactory("SHA256WITHDSA", k));
+                }
+                else
+                {
+                    var gen = new ECKeyPairGenerator();
+                    gen.Init(new ECKeyGenerationParameters(CustomNamedCurves.GetOid(keyBitsString), random));
+                    return (gen, k => new Asn1SignatureFactory("SHA256WITHECDSA", k));
+                }
+            });
 
         private void rbCsrBasicConstraint_Click(object sender, EventArgs e)
         {
-            if(rbCsrBasicConstraintCA.Checked)
+            if (rbCsrBasicConstraintCA.Checked)
             {
                 txtCsrBasicConstraintPathLength.Enabled = true;
                 lblCsrBasicConstraintPathLength.Enabled = true;
@@ -505,6 +530,20 @@ namespace CryptoTool
                 lblCsrBasicConstraintPathLength.Enabled = false;
                 cbCsrBasicConstraintCritical.Enabled = false;
                 cbCsrBasicConstraintCritical.Checked = false;
+            }
+        }
+
+        private void SetStatusAndProgress(string status, double? progress = null)
+        {
+            tsslStatus.Text = status;
+            if (progress.HasValue)
+            {
+                tspbProgress.Visible = true;
+                tspbProgress.Value = (int)(progress * tspbProgress.Maximum);
+            }
+            else
+            {
+                tspbProgress.Visible = false;
             }
         }
     }
