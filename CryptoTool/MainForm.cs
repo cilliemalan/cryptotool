@@ -319,8 +319,23 @@ namespace CryptoTool
                 var dnValuesThese = dnValues.ToArray();
                 dnValuesThese[0] = cn;
 
-                var key = keyGenerator.GenerateKeyPair();
-                WriteToPemFile(Path.Combine(CurrentWorkingDirectory, $"{cn}.key"), key);
+                var keyPath = Path.Combine(CurrentWorkingDirectory, $"{cn}.key");
+                AsymmetricCipherKeyPair key = null;
+                if (rdCsrUseExistingKey.Checked && File.Exists(keyPath))
+                {
+                    try
+                    {
+                        PemReader pr = new PemReader(File.OpenText(keyPath));
+                        key = pr.ReadObject() as AsymmetricCipherKeyPair;
+                    }
+                    catch { key = null; }
+                }
+
+                if (key == null)
+                {
+                    key = keyGenerator.GenerateKeyPair();
+                    WriteToPemFile(keyPath, key);
+                }
 
                 X509Name subject = new X509Name(dnOrdering, dnValuesThese);
 
