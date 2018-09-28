@@ -314,7 +314,7 @@ namespace CryptoTool
             foreach (var line in lines)
             {
                 string cn = line[0];
-                string[] altnames = line.Skip(1).ToArray();
+                string[] altnames = line;
 
                 var dnValuesThese = dnValues.ToArray();
                 dnValuesThese[0] = cn;
@@ -330,7 +330,7 @@ namespace CryptoTool
                 if (extKeyUsageExt != null) extGenerator.AddExtension(X509Extensions.ExtendedKeyUsage, false, extKeyUsageExt);
                 if (altnames.Length > 0)
                 {
-                    var gennames = altnames.Select((x, i) => new GeneralName(i, new DerIA5String(x))).ToArray();
+                    var gennames = altnames.Select((x, i) => new GeneralName(GeneralName.DnsName, new DerIA5String(x))).ToArray();
                     extGenerator.AddExtension(X509Extensions.SubjectAlternativeName, false, new GeneralNames(gennames));
                 }
 
@@ -348,6 +348,7 @@ namespace CryptoTool
                 WriteToPemFile(Path.Combine(CurrentWorkingDirectory, $"{cn}.csr"), req);
             }
 
+            SetupWatcher();
         }
 
         private void WriteToPemFile(string filename, object obj)
