@@ -308,9 +308,6 @@ namespace CryptoTool
             if (!string.IsNullOrEmpty(dnL)) { dnOrdering.Add(X509Name.L); dnValues.Add(dnL); }
             if (!string.IsNullOrEmpty(dnEmail)) { dnOrdering.Add(X509Name.EmailAddress); dnValues.Add(dnEmail); }
 
-            KeyUsage keyUsageExt = GetKeyUsage();
-            ExtendedKeyUsage extKeyUsageExt = GetExtendedUsage();
-
             foreach (var line in lines)
             {
                 string cn = line[0];
@@ -339,19 +336,11 @@ namespace CryptoTool
 
                 X509Name subject = new X509Name(dnOrdering, dnValuesThese);
 
-                X509ExtensionsGenerator extGenerator = new X509ExtensionsGenerator();
-                extGenerator.AddExtension(X509Extensions.BasicConstraints, false, new BasicConstraints(false));
-                if (keyUsageExt != null) extGenerator.AddExtension(X509Extensions.KeyUsage, false, keyUsageExt);
-                if (extKeyUsageExt != null) extGenerator.AddExtension(X509Extensions.ExtendedKeyUsage, false, extKeyUsageExt);
-                if (altnames.Length > 0)
-                {
-                    var gennames = altnames.Select((x, i) => new GeneralName(GeneralName.DnsName, new DerIA5String(x))).ToArray();
-                    extGenerator.AddExtension(X509Extensions.SubjectAlternativeName, false, new GeneralNames(gennames));
-                }
+                X509ExtensionsGenerator extGenerator = GetExtensions(altnames);
 
                 var exts = extGenerator.Generate();
                 Asn1Set attrs = new DerSet(new DerSequence(PkcsObjectIdentifiers.Pkcs9AtExtensionRequest, new DerSet(exts)));
-                
+
                 var req = new Pkcs10CertificationRequest(
                     signerFactoryFactory(key.Private),
                     subject,
@@ -375,23 +364,86 @@ namespace CryptoTool
             }
         }
 
-        private KeyUsage GetKeyUsage()
+        private X509ExtensionsGenerator GetExtensions(string[] altnames)
+        {
+            X509ExtensionsGenerator extGenerator = new X509ExtensionsGenerator();
+
+            var (basicConstrainsCritical, basicConstraintsExt) = GetBasicConstraints();
+            var (keyUsageCritical, keyUsageExt) = GetKeyUsage();
+            var (extKeyUsageCritical, extKeyUsageExt) = GetExtendedUsage();
+            var (altNamesCritical, altNamesExt) = GetSubjectAltName(altnames);
+
+            if (basicConstraintsExt != null) extGenerator.AddExtension(X509Extensions.BasicConstraints, basicConstrainsCritical, basicConstraintsExt);
+            if (keyUsageExt != null) extGenerator.AddExtension(X509Extensions.KeyUsage, keyUsageCritical, keyUsageExt);
+            if (extKeyUsageExt != null) extGenerator.AddExtension(X509Extensions.ExtendedKeyUsage, extKeyUsageCritical, extKeyUsageExt);
+            if (altNamesExt != null) extGenerator.AddExtension(X509Extensions.SubjectAlternativeName, altNamesCritical, altNamesExt);
+            
+            return extGenerator;
+        }
+
+        private (bool, KeyUsage) GetKeyUsage()
         {
             int keyUsage = 0;
-            foreach(string item in cbCsrUsage.CheckedItems)
+            foreach (string item in cbCsrUsage.CheckedItems)
             {
                 keyUsage |= keyUsageDictionary.Where(x => x.Value == item).Select(x => x.Key).Single();
             }
 
-            return new KeyUsage(keyUsage);
+            bool keyUsageCritical = cbCsrCertUsageCritical.Checked;
+            KeyUsage keyUsageExt = keyUsage != 0 || keyUsageCritical ? new KeyUsage(keyUsage) : null;
+            return (keyUsageCritical, keyUsageExt);
         }
 
-        private ExtendedKeyUsage GetExtendedUsage()
+        private (bool, ExtendedKeyUsage) GetExtendedUsage()
         {
             var purposes = cbCsrExtendedUsage.CheckedItems.Cast<string>()
                 .Select(item => extKeyUsageDictionary.Where(x => x.Value == item).Select(x => x.Key).Single())
                 .ToArray();
-            return new ExtendedKeyUsage(purposes);
+            bool extKeyUsageCritical = cbCsrExtendedUsageCritical.Checked;
+            ExtendedKeyUsage extendedKeyUsageExt = purposes.Length != 0 || extKeyUsageCritical ? new ExtendedKeyUsage(purposes) : null;
+            return (extKeyUsageCritical, extendedKeyUsageExt);
+        }
+
+        private (bool, BasicConstraints) GetBasicConstraints()
+        {
+            BasicConstraints bc = null;
+            if (rbCsrBasicConstraintCA.Checked)
+            {
+                var pathLenStr = txtCsrBasicConstraintPathLength.Text;
+                if (!string.IsNullOrEmpty(pathLenStr))
+                {
+                    var pathLengthValue = int.TryParse(pathLenStr, out var plv)
+                        ? plv
+                        : throw new InvalidOperationException("Path length must be a valid integer");
+                    bc = new BasicConstraints(pathLengthValue);
+                }
+                else
+                {
+                    bc = new BasicConstraints(true);
+                }
+            }
+            else if (rbCsrBasicConstraintEndEntity.Checked)
+            {
+                bc = new BasicConstraints(false);
+            }
+            
+            return (cbCsrBasicConstraintCritical.Checked, bc);
+        }
+
+        private (bool, GeneralNames) GetSubjectAltName(string[] altnames)
+        {
+            var altNamesCritical = cbCsrAltNamesCritical.Checked;
+            GeneralNames altNamesExt = null;
+            if (cbCsrAltNamesInclude.Checked)
+            {
+                GeneralName[] gennames = null;
+                if (altnames != null && altnames.Length > 0)
+                {
+                    gennames = altnames.Select((x, i) => new GeneralName(GeneralName.DnsName, new DerIA5String(x))).ToArray();
+                }
+                altNamesExt = new GeneralNames(gennames ?? new GeneralName[0]);
+            }
+            return (altNamesCritical, altNamesExt);
         }
 
         private (IAsymmetricCipherKeyPairGenerator, Func<AsymmetricKeyParameter, ISignatureFactory>) CsrGetKeyGenerator()
@@ -409,7 +461,7 @@ namespace CryptoTool
             {
                 int L = int.Parse(keyBitsString);
                 int S;
-                switch(L)
+                switch (L)
                 {
                     case 1024: S = 160; break;
                     case 2048: S = 224; break;
@@ -428,6 +480,31 @@ namespace CryptoTool
                 var gen = new ECKeyPairGenerator();
                 gen.Init(new ECKeyGenerationParameters(CustomNamedCurves.GetOid(keyBitsString), random));
                 return (gen, k => new Asn1SignatureFactory("SHA256WITHECDSA", k));
+            }
+        }
+
+        private void rbCsrBasicConstraint_Click(object sender, EventArgs e)
+        {
+            if(rbCsrBasicConstraintCA.Checked)
+            {
+                txtCsrBasicConstraintPathLength.Enabled = true;
+                lblCsrBasicConstraintPathLength.Enabled = true;
+                cbCsrBasicConstraintCritical.Enabled = true;
+            }
+            else if (rbCsrBasicConstraintEndEntity.Checked)
+            {
+                txtCsrBasicConstraintPathLength.Enabled = false;
+                txtCsrBasicConstraintPathLength.Text = "";
+                lblCsrBasicConstraintPathLength.Enabled = false;
+                cbCsrBasicConstraintCritical.Enabled = true;
+            }
+            else
+            {
+                txtCsrBasicConstraintPathLength.Enabled = false;
+                txtCsrBasicConstraintPathLength.Text = "";
+                lblCsrBasicConstraintPathLength.Enabled = false;
+                cbCsrBasicConstraintCritical.Enabled = false;
+                cbCsrBasicConstraintCritical.Checked = false;
             }
         }
     }
