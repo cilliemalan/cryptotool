@@ -337,7 +337,7 @@ namespace CryptoTool
                 var dnValuesThese = dnValues.ToArray();
                 dnValuesThese[0] = cn;
 
-                var keyPath = Path.Combine(CurrentWorkingDirectory, $"{cn}.key");
+                var keyPath = Path.Combine(CurrentWorkingDirectory, FixFilename($"{cn}.key"));
                 AsymmetricCipherKeyPair key = null;
                 if (rdCsrUseExistingKey.Checked && File.Exists(keyPath))
                 {
@@ -370,11 +370,13 @@ namespace CryptoTool
                     key.Private);
 
                 if (!req.Verify()) throw new InvalidOperationException("Generated an invalid CSR.");
-                WriteToPemFile(Path.Combine(CurrentWorkingDirectory, $"{cn}.csr"), req);
+                WriteToPemFile(Path.Combine(CurrentWorkingDirectory, FixFilename($"{cn}.csr")), req);
             }
 
             SetStatusAndProgress("Generating CSRs", 1);
         }
+
+        private string FixFilename(string cn) => cn.Replace('*', '_');
 
         private void WriteToPemFile(string filename, object obj)
         {
