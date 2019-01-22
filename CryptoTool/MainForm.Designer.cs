@@ -36,6 +36,7 @@
             this.lstFiles = new System.Windows.Forms.ListView();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.txtSelectedThingInfo = new System.Windows.Forms.TextBox();
             this.tpCsrs = new System.Windows.Forms.TabPage();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
@@ -172,6 +173,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.txtSelectedThingInfo);
             this.tabPage1.Controls.Add(this.lstFiles);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
@@ -180,6 +182,23 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Inspect";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // txtSelectedThingInfo
+            // 
+            this.txtSelectedThingInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtSelectedThingInfo.BackColor = System.Drawing.SystemColors.Window;
+            this.txtSelectedThingInfo.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtSelectedThingInfo.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtSelectedThingInfo.Location = new System.Drawing.Point(370, 6);
+            this.txtSelectedThingInfo.Multiline = true;
+            this.txtSelectedThingInfo.Name = "txtSelectedThingInfo";
+            this.txtSelectedThingInfo.ReadOnly = true;
+            this.txtSelectedThingInfo.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.txtSelectedThingInfo.Size = new System.Drawing.Size(794, 564);
+            this.txtSelectedThingInfo.TabIndex = 4;
+            this.txtSelectedThingInfo.WordWrap = false;
             // 
             // tpCsrs
             // 
@@ -686,9 +705,11 @@
             this.txtCsrDomains.Location = new System.Drawing.Point(6, 63);
             this.txtCsrDomains.Multiline = true;
             this.txtCsrDomains.Name = "txtCsrDomains";
+            this.txtCsrDomains.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.txtCsrDomains.Size = new System.Drawing.Size(365, 507);
             this.txtCsrDomains.TabIndex = 0;
             this.txtCsrDomains.Text = "forexample.com, www.forexample.com";
+            this.txtCsrDomains.WordWrap = false;
             // 
             // statusStrip1
             // 
@@ -728,6 +749,7 @@
             this.Load += new System.EventHandler(this.Form1_Load);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
+            this.tabPage1.PerformLayout();
             this.tpCsrs.ResumeLayout(false);
             this.tpCsrs.PerformLayout();
             this.flowLayoutPanel1.ResumeLayout(false);
@@ -810,6 +832,7 @@
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel tsslStatus;
         private System.Windows.Forms.ToolStripProgressBar tspbProgress;
+        private System.Windows.Forms.TextBox txtSelectedThingInfo;
     }
 }
 
