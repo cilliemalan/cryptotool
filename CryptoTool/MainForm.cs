@@ -92,6 +92,8 @@ namespace CryptoTool
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            CurrentWorkingDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments, Environment.SpecialFolderOption.DoNotVerify), "CertTool");
+            if (!Directory.Exists(CurrentWorkingDirectory)) Directory.CreateDirectory(CurrentWorkingDirectory);
             SetupWatcher();
         }
 
