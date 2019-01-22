@@ -214,6 +214,7 @@ namespace CryptoTool
         private void lstFiles_SelectedIndexChanged(object sender, EventArgs e)
         {
             UpdateHighlights();
+            UpdateSelectedThingInfoText();
         }
 
         private void UpdateHighlights()
@@ -235,6 +236,18 @@ namespace CryptoTool
                         item.BackColor = SystemColors.ButtonFace;
                     }
                 }
+            }
+        }
+
+        private void UpdateSelectedThingInfoText()
+        {
+            if (SelectedItem != null)
+            {
+                txtSelectedThingInfo.Text = SelectedItem.GetDetail();
+            }
+            else
+            {
+                txtSelectedThingInfo.Text = "";
             }
         }
 
