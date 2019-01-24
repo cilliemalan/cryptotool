@@ -1,5 +1,6 @@
 # Crypto Tool
 A small program for generating CSRs in bulk. Uses BouncyCastle crypto library for crypto magic.
+![it's a tool](https://i.imgur.com/IbmrSjR.png)
 
 ## Building
 Requires Visual Studio 2017 or later. Just open and build.
