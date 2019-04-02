@@ -85,6 +85,8 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.tsslStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.tspbProgress = new System.Windows.Forms.ToolStripProgressBar();
+            this.rdProcessCreateCSR = new System.Windows.Forms.RadioButton();
+            this.rdProcessCreateSelfSigned = new System.Windows.Forms.RadioButton();
             chName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             chInfo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabControl1.SuspendLayout();
@@ -235,11 +237,13 @@
             // 
             // groupBox8
             // 
+            this.groupBox8.Controls.Add(this.rdProcessCreateSelfSigned);
+            this.groupBox8.Controls.Add(this.rdProcessCreateCSR);
             this.groupBox8.Controls.Add(this.label9);
             this.groupBox8.Controls.Add(this.btnCsrProcess);
             this.groupBox8.Location = new System.Drawing.Point(3, 3);
             this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Size = new System.Drawing.Size(254, 97);
+            this.groupBox8.Size = new System.Drawing.Size(254, 143);
             this.groupBox8.TabIndex = 13;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "Process";
@@ -255,7 +259,7 @@
             // 
             // btnCsrProcess
             // 
-            this.btnCsrProcess.Location = new System.Drawing.Point(9, 61);
+            this.btnCsrProcess.Location = new System.Drawing.Point(6, 110);
             this.btnCsrProcess.Name = "btnCsrProcess";
             this.btnCsrProcess.Size = new System.Drawing.Size(239, 23);
             this.btnCsrProcess.TabIndex = 7;
@@ -267,7 +271,7 @@
             // 
             this.groupBox2.Controls.Add(this.rdCsrGenerateNewKey);
             this.groupBox2.Controls.Add(this.rdCsrUseExistingKey);
-            this.groupBox2.Location = new System.Drawing.Point(3, 106);
+            this.groupBox2.Location = new System.Drawing.Point(3, 152);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(254, 70);
             this.groupBox2.TabIndex = 3;
@@ -301,7 +305,7 @@
             this.groupBox3.Controls.Add(this.rdCsrKeyEcdsa);
             this.groupBox3.Controls.Add(this.rdCsrKeyDsa);
             this.groupBox3.Controls.Add(this.rdCsrKeyRsa);
-            this.groupBox3.Location = new System.Drawing.Point(3, 182);
+            this.groupBox3.Location = new System.Drawing.Point(3, 228);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(254, 90);
             this.groupBox3.TabIndex = 4;
@@ -346,7 +350,7 @@
             // gbKeyBits
             // 
             this.gbKeyBits.Controls.Add(this.cbCsKeyBits);
-            this.gbKeyBits.Location = new System.Drawing.Point(3, 278);
+            this.gbKeyBits.Location = new System.Drawing.Point(3, 324);
             this.gbKeyBits.Name = "gbKeyBits";
             this.gbKeyBits.Size = new System.Drawing.Size(254, 52);
             this.gbKeyBits.TabIndex = 5;
@@ -380,7 +384,7 @@
             this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.label4);
-            this.groupBox1.Location = new System.Drawing.Point(3, 336);
+            this.groupBox1.Location = new System.Drawing.Point(263, 3);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(254, 182);
             this.groupBox1.TabIndex = 2;
@@ -497,7 +501,7 @@
             this.groupBox6.Controls.Add(this.rbCsrBasicConstraintEndEntity);
             this.groupBox6.Controls.Add(this.rbCsrBasicConstraintExclude);
             this.groupBox6.Controls.Add(this.cbCsrBasicConstraintCritical);
-            this.groupBox6.Location = new System.Drawing.Point(263, 3);
+            this.groupBox6.Location = new System.Drawing.Point(263, 191);
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.Size = new System.Drawing.Size(254, 139);
             this.groupBox6.TabIndex = 10;
@@ -574,7 +578,7 @@
             // 
             this.groupBox7.Controls.Add(this.cbCsrAltNamesInclude);
             this.groupBox7.Controls.Add(this.cbCsrAltNamesCritical);
-            this.groupBox7.Location = new System.Drawing.Point(263, 148);
+            this.groupBox7.Location = new System.Drawing.Point(263, 336);
             this.groupBox7.Name = "groupBox7";
             this.groupBox7.Size = new System.Drawing.Size(254, 68);
             this.groupBox7.TabIndex = 11;
@@ -607,7 +611,7 @@
             // 
             this.groupBox4.Controls.Add(this.cbCsrCertUsageCritical);
             this.groupBox4.Controls.Add(this.cbCsrUsage);
-            this.groupBox4.Location = new System.Drawing.Point(263, 222);
+            this.groupBox4.Location = new System.Drawing.Point(523, 3);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(254, 203);
             this.groupBox4.TabIndex = 6;
@@ -649,7 +653,7 @@
             // 
             this.groupBox5.Controls.Add(this.cbCsrExtendedUsageCritical);
             this.groupBox5.Controls.Add(this.cbCsrExtendedUsage);
-            this.groupBox5.Location = new System.Drawing.Point(523, 3);
+            this.groupBox5.Location = new System.Drawing.Point(523, 212);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(254, 204);
             this.groupBox5.TabIndex = 9;
@@ -734,6 +738,28 @@
             this.tspbProgress.Size = new System.Drawing.Size(100, 16);
             this.tspbProgress.Visible = false;
             // 
+            // rdProcessCreateCSR
+            // 
+            this.rdProcessCreateCSR.AutoSize = true;
+            this.rdProcessCreateCSR.Checked = true;
+            this.rdProcessCreateCSR.Location = new System.Drawing.Point(6, 64);
+            this.rdProcessCreateCSR.Name = "rdProcessCreateCSR";
+            this.rdProcessCreateCSR.Size = new System.Drawing.Size(81, 17);
+            this.rdProcessCreateCSR.TabIndex = 9;
+            this.rdProcessCreateCSR.TabStop = true;
+            this.rdProcessCreateCSR.Text = "Create CSR";
+            this.rdProcessCreateCSR.UseVisualStyleBackColor = true;
+            // 
+            // rdProcessCreateSelfSigned
+            // 
+            this.rdProcessCreateSelfSigned.AutoSize = true;
+            this.rdProcessCreateSelfSigned.Location = new System.Drawing.Point(6, 87);
+            this.rdProcessCreateSelfSigned.Name = "rdProcessCreateSelfSigned";
+            this.rdProcessCreateSelfSigned.Size = new System.Drawing.Size(163, 17);
+            this.rdProcessCreateSelfSigned.TabIndex = 9;
+            this.rdProcessCreateSelfSigned.Text = "Create Self Signed Certificate";
+            this.rdProcessCreateSelfSigned.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -754,6 +780,7 @@
             this.tpCsrs.PerformLayout();
             this.flowLayoutPanel1.ResumeLayout(false);
             this.groupBox8.ResumeLayout(false);
+            this.groupBox8.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
@@ -833,6 +860,8 @@
         private System.Windows.Forms.ToolStripStatusLabel tsslStatus;
         private System.Windows.Forms.ToolStripProgressBar tspbProgress;
         private System.Windows.Forms.TextBox txtSelectedThingInfo;
+        private System.Windows.Forms.RadioButton rdProcessCreateSelfSigned;
+        private System.Windows.Forms.RadioButton rdProcessCreateCSR;
     }
 }
 

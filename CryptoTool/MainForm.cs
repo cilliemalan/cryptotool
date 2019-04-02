@@ -9,9 +9,12 @@ using Org.BouncyCastle.Crypto.EC;
 using Org.BouncyCastle.Crypto.Generators;
 using Org.BouncyCastle.Crypto.Operators;
 using Org.BouncyCastle.Crypto.Parameters;
+using Org.BouncyCastle.Crypto.Signers;
+using Org.BouncyCastle.Math;
 using Org.BouncyCastle.OpenSsl;
 using Org.BouncyCastle.Pkcs;
 using Org.BouncyCastle.Security;
+using Org.BouncyCastle.X509;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -299,7 +302,7 @@ namespace CryptoTool
             Enabled = false;
             try
             {
-                await ProcessCsrGeneration();
+                await ProcessCsrGeneration(rdProcessCreateCSR.Checked ? ThingToGenerate.Csr : ThingToGenerate.SelfSignedCert);
             }
             catch (Exception ex)
             {
@@ -310,9 +313,9 @@ namespace CryptoTool
             Enabled = true;
         }
 
-        private async Task ProcessCsrGeneration()
+        private async Task ProcessCsrGeneration(ThingToGenerate toGenerate)
         {
-            SetStatusAndProgress("Generating CSRs");
+            SetStatusAndProgress("Generating...");
             var (keyGenerator, signerFactoryFactory) = await CsrGetKeyGeneratorAsync();
 
             var lines = txtCsrDomains.Text
@@ -344,7 +347,7 @@ namespace CryptoTool
             int cnt = 0;
             foreach (var line in lines)
             {
-                SetStatusAndProgress("Generating CSRs", (double)cnt++ / lines.Length);
+                SetStatusAndProgress("Generating...", (double)cnt++ / lines.Length);
 
                 string cn = line[0];
                 string[] altnames = line;
@@ -372,20 +375,56 @@ namespace CryptoTool
 
                 X509Name subject = new X509Name(dnOrdering, dnValuesThese);
 
-                X509ExtensionsGenerator extGenerator = GetExtensions(altnames);
 
-                var exts = extGenerator.Generate();
-                Asn1Set attrs = new DerSet(new DerSequence(PkcsObjectIdentifiers.Pkcs9AtExtensionRequest, new DerSet(exts)));
+                if ((toGenerate | ThingToGenerate.Csr) == ThingToGenerate.Csr)
+                {
+                    X509ExtensionsGenerator extGenerator = GetExtensionsGenerator(altnames);
 
-                var req = new Pkcs10CertificationRequest(
-                    signerFactoryFactory(key.Private),
-                    subject,
-                    key.Public,
-                    attrs,
-                    key.Private);
+                    var exts = extGenerator.Generate();
+                    Asn1Set attrs = new DerSet(new DerSequence(PkcsObjectIdentifiers.Pkcs9AtExtensionRequest, new DerSet(exts)));
 
-                if (!req.Verify()) throw new InvalidOperationException("Generated an invalid CSR.");
-                WriteToPemFile(Path.Combine(CurrentWorkingDirectory, FixFilename($"{cn}.csr")), req);
+                    var req = new Pkcs10CertificationRequest(
+                        signerFactoryFactory(key.Private),
+                        subject,
+                        key.Public,
+                        attrs,
+                        key.Private);
+
+                    if (!req.Verify()) throw new InvalidOperationException("Generated an invalid CSR.");
+                    WriteToPemFile(Path.Combine(CurrentWorkingDirectory, FixFilename($"{cn}.csr")), req);
+                }
+                if ((toGenerate | ThingToGenerate.SelfSignedCert) == ThingToGenerate.SelfSignedCert)
+                {
+                    SecureRandom sr = new SecureRandom();
+                    X509V3CertificateGenerator certgen = new X509V3CertificateGenerator();
+
+                    certgen.SetSerialNumber(new BigInteger(128, sr));
+                    certgen.SetIssuerDN(subject);
+                    certgen.SetSubjectDN(subject);
+                    certgen.SetNotBefore(DateTime.Today.Subtract(new TimeSpan(1, 0, 0, 0)));
+                    certgen.SetNotAfter(DateTime.Today.AddYears(30));
+                    certgen.SetPublicKey(key.Public);
+
+                    foreach (var ext in GetExtensions(altnames))
+                    {
+                        certgen.AddExtension(ext.oid, ext.isCritical, ext.section);
+                    }
+
+                    ISignatureFactory signer;
+                    if (key.Private is ECPrivateKeyParameters)
+                    {
+                        signer = new Asn1SignatureFactory("SHA256WITHECDSA", key.Private, sr);
+                    }
+                    else
+                    {
+                        signer = new Asn1SignatureFactory("SHA256WITHRSA", key.Private, sr);
+                    }
+
+                    var cert = certgen.Generate(signer);
+                    cert.CheckValidity();
+                    cert.Verify(key.Public);
+                    WriteToPemFile(Path.Combine(CurrentWorkingDirectory, FixFilename($"{cn}.cer")), cert);
+                }
             }
 
             SetStatusAndProgress("Generating CSRs", 1);
@@ -402,7 +441,20 @@ namespace CryptoTool
             }
         }
 
-        private X509ExtensionsGenerator GetExtensions(string[] altnames)
+        private IEnumerable<(DerObjectIdentifier oid, bool isCritical, Asn1Encodable section)> GetExtensions(string[] altnames)
+        {
+            var (basicConstrainsCritical, basicConstraintsExt) = GetBasicConstraints();
+            var (keyUsageCritical, keyUsageExt) = GetKeyUsage();
+            var (extKeyUsageCritical, extKeyUsageExt) = GetExtendedUsage();
+            var (altNamesCritical, altNamesExt) = GetSubjectAltName(altnames);
+
+            if (basicConstraintsExt != null) yield return (X509Extensions.BasicConstraints, basicConstrainsCritical, basicConstraintsExt);
+            if (keyUsageExt != null) yield return (X509Extensions.KeyUsage, keyUsageCritical, keyUsageExt);
+            if (extKeyUsageExt != null) yield return (X509Extensions.ExtendedKeyUsage, extKeyUsageCritical, extKeyUsageExt);
+            if (altNamesExt != null) yield return (X509Extensions.SubjectAlternativeName, altNamesCritical, altNamesExt);
+        }
+
+        private X509ExtensionsGenerator GetExtensionsGenerator(string[] altnames)
         {
             X509ExtensionsGenerator extGenerator = new X509ExtensionsGenerator();
 
@@ -562,6 +614,12 @@ namespace CryptoTool
             {
                 tspbProgress.Visible = false;
             }
+        }
+
+        public enum ThingToGenerate
+        {
+            Csr = 1,
+            SelfSignedCert = 2
         }
     }
 }
