@@ -251,7 +251,7 @@ namespace CryptoTool
             foreach (var r in toRemove) cbCaCertificates.Items.Remove(r);
         }
 
-        private async void UpdateCsrToSignList()
+        private void UpdateCsrToSignList()
         {
             bool IsClientCert(Pkcs10CertificationRequest csr) => GetCsrExtensions(csr).Any(x => x.value is ExtendedKeyUsage ku && ku.HasKeyPurposeId(KeyPurposeID.IdKPClientAuth));
             bool IsServerCert(Pkcs10CertificationRequest csr) => GetCsrExtensions(csr).Any(x => x.value is ExtendedKeyUsage ku && ku.HasKeyPurposeId(KeyPurposeID.IdKPServerAuth));
@@ -781,7 +781,7 @@ namespace CryptoTool
                 .SelectMany(x => x.Cast<Asn1Encodable>().Where(y => y is DerSequence).Cast<DerSequence>())
                 .Where(x => x.Count == 3 || x.Count == 2)
                 .Select(x => TryParseExtension(x))
-                .Where(x => x.Item1 != null)
+                .Where(x => x.oid != null)
                 .ToArray();
         }
 
