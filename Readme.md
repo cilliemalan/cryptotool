@@ -32,6 +32,7 @@ On the right, select the duration and click sign. It will put certificates right
 - It doesn't support PKCS12 containers (p12/pfx files).
 - It does not securely save keys. It just plops them on disk.
 - It only saves files as PEM.
+- You cannot modify extensions when signing certificates.
 
 ## License
 see [LICENSE](LICENSE)
