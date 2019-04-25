@@ -40,6 +40,7 @@ namespace CryptoTool
             private set { SubItems["Info"].Text = value; }
         }
         public AsymmetricKeyParameter PublicKey { get; private set; }
+        public bool IsCertificateAuthority { get; private set; }
 
         private CertificateFile()
         {
@@ -53,6 +54,7 @@ namespace CryptoTool
                 Info = null;
                 PemObject = null;
                 Type = CertificateFileType.Unknown;
+                IsCertificateAuthority = false;
 
                 using (var file = File.OpenText(FullPath))
                 {
@@ -113,6 +115,7 @@ namespace CryptoTool
                     Type = CertificateFileType.Certificate;
                     Info = cer.SubjectDN.GetValueList(X509ObjectIdentifiers.CommonName)?.Cast<string>().FirstOrDefault();
                     PublicKey = cer.GetPublicKey();
+                    IsCertificateAuthority = cer.GetBasicConstraints() >= 0;
                 }
                 else if (PemObject is Pkcs10CertificationRequest csr)
                 {
@@ -241,5 +244,7 @@ namespace CryptoTool
                 appendLine(obj.ToString());
             }
         }
+
+        public override string ToString() => Info;
     }
 }

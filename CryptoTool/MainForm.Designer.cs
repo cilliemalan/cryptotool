@@ -30,16 +30,19 @@
         {
             System.Windows.Forms.ColumnHeader chName;
             System.Windows.Forms.ColumnHeader chInfo;
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.txtWorkingDir = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.btnBrowse = new System.Windows.Forms.Button();
             this.lstFiles = new System.Windows.Forms.ListView();
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tpInspect = new System.Windows.Forms.TabPage();
             this.txtSelectedThingInfo = new System.Windows.Forms.TextBox();
             this.tpCsrs = new System.Windows.Forms.TabPage();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.rdProcessCreateSelfSigned = new System.Windows.Forms.RadioButton();
+            this.rdProcessCreateCSR = new System.Windows.Forms.RadioButton();
             this.label9 = new System.Windows.Forms.Label();
             this.btnCsrProcess = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -82,15 +85,29 @@
             this.cbCsrExtendedUsage = new System.Windows.Forms.CheckedListBox();
             this.label2 = new System.Windows.Forms.Label();
             this.txtCsrDomains = new System.Windows.Forms.TextBox();
+            this.tpSign = new System.Windows.Forms.TabPage();
+            this.groupBox11 = new System.Windows.Forms.GroupBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.cbSignCertDuration = new System.Windows.Forms.ComboBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.btnSignCertificates = new System.Windows.Forms.Button();
+            this.groupBox10 = new System.Windows.Forms.GroupBox();
+            this.cbSignAlreadySigned = new System.Windows.Forms.CheckBox();
+            this.cbSignClientCerts = new System.Windows.Forms.CheckBox();
+            this.cbSignServerCerts = new System.Windows.Forms.CheckBox();
+            this.cblSignCsrs = new System.Windows.Forms.CheckedListBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.groupBox9 = new System.Windows.Forms.GroupBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.cbCaCertificates = new System.Windows.Forms.ComboBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.tsslStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.tspbProgress = new System.Windows.Forms.ToolStripProgressBar();
-            this.rdProcessCreateCSR = new System.Windows.Forms.RadioButton();
-            this.rdProcessCreateSelfSigned = new System.Windows.Forms.RadioButton();
             chName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             chInfo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabControl1.SuspendLayout();
-            this.tabPage1.SuspendLayout();
+            this.tpInspect.SuspendLayout();
             this.tpCsrs.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.groupBox8.SuspendLayout();
@@ -102,18 +119,22 @@
             this.groupBox7.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox5.SuspendLayout();
+            this.tpSign.SuspendLayout();
+            this.groupBox11.SuspendLayout();
+            this.groupBox10.SuspendLayout();
+            this.groupBox9.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // chName
             // 
             chName.Text = "File";
-            chName.Width = 200;
+            chName.Width = 400;
             // 
             // chInfo
             // 
             chInfo.Text = "Info";
-            chInfo.Width = 132;
+            chInfo.Width = 200;
             // 
             // txtWorkingDir
             // 
@@ -155,7 +176,7 @@
             chInfo});
             this.lstFiles.Location = new System.Drawing.Point(6, 6);
             this.lstFiles.Name = "lstFiles";
-            this.lstFiles.Size = new System.Drawing.Size(358, 564);
+            this.lstFiles.Size = new System.Drawing.Size(609, 597);
             this.lstFiles.TabIndex = 3;
             this.lstFiles.UseCompatibleStateImageBehavior = false;
             this.lstFiles.View = System.Windows.Forms.View.Details;
@@ -163,27 +184,29 @@
             // 
             // tabControl1
             // 
-            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tpInspect);
             this.tabControl1.Controls.Add(this.tpCsrs);
+            this.tabControl1.Controls.Add(this.tpSign);
             this.tabControl1.Location = new System.Drawing.Point(12, 39);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1178, 602);
+            this.tabControl1.Size = new System.Drawing.Size(1178, 635);
             this.tabControl1.TabIndex = 4;
             // 
-            // tabPage1
+            // tpInspect
             // 
-            this.tabPage1.Controls.Add(this.txtSelectedThingInfo);
-            this.tabPage1.Controls.Add(this.lstFiles);
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1170, 576);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Inspect";
-            this.tabPage1.UseVisualStyleBackColor = true;
+            this.tpInspect.Controls.Add(this.txtSelectedThingInfo);
+            this.tpInspect.Controls.Add(this.lstFiles);
+            this.tpInspect.Location = new System.Drawing.Point(4, 22);
+            this.tpInspect.Name = "tpInspect";
+            this.tpInspect.Padding = new System.Windows.Forms.Padding(3);
+            this.tpInspect.Size = new System.Drawing.Size(1170, 609);
+            this.tpInspect.TabIndex = 0;
+            this.tpInspect.Text = "Inspect";
+            this.tpInspect.UseVisualStyleBackColor = true;
             // 
             // txtSelectedThingInfo
             // 
@@ -193,12 +216,12 @@
             this.txtSelectedThingInfo.BackColor = System.Drawing.SystemColors.Window;
             this.txtSelectedThingInfo.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtSelectedThingInfo.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSelectedThingInfo.Location = new System.Drawing.Point(370, 6);
+            this.txtSelectedThingInfo.Location = new System.Drawing.Point(621, 6);
             this.txtSelectedThingInfo.Multiline = true;
             this.txtSelectedThingInfo.Name = "txtSelectedThingInfo";
             this.txtSelectedThingInfo.ReadOnly = true;
             this.txtSelectedThingInfo.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtSelectedThingInfo.Size = new System.Drawing.Size(794, 564);
+            this.txtSelectedThingInfo.Size = new System.Drawing.Size(543, 597);
             this.txtSelectedThingInfo.TabIndex = 4;
             this.txtSelectedThingInfo.WordWrap = false;
             // 
@@ -210,9 +233,9 @@
             this.tpCsrs.Location = new System.Drawing.Point(4, 22);
             this.tpCsrs.Name = "tpCsrs";
             this.tpCsrs.Padding = new System.Windows.Forms.Padding(3);
-            this.tpCsrs.Size = new System.Drawing.Size(1170, 576);
+            this.tpCsrs.Size = new System.Drawing.Size(1170, 609);
             this.tpCsrs.TabIndex = 1;
-            this.tpCsrs.Text = "Generate CSRs";
+            this.tpCsrs.Text = "Generate";
             this.tpCsrs.UseVisualStyleBackColor = true;
             // 
             // flowLayoutPanel1
@@ -232,7 +255,7 @@
             this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(377, 6);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(787, 564);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(787, 597);
             this.flowLayoutPanel1.TabIndex = 12;
             // 
             // groupBox8
@@ -247,6 +270,28 @@
             this.groupBox8.TabIndex = 13;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "Process";
+            // 
+            // rdProcessCreateSelfSigned
+            // 
+            this.rdProcessCreateSelfSigned.AutoSize = true;
+            this.rdProcessCreateSelfSigned.Location = new System.Drawing.Point(6, 87);
+            this.rdProcessCreateSelfSigned.Name = "rdProcessCreateSelfSigned";
+            this.rdProcessCreateSelfSigned.Size = new System.Drawing.Size(163, 17);
+            this.rdProcessCreateSelfSigned.TabIndex = 9;
+            this.rdProcessCreateSelfSigned.Text = "Create Self Signed Certificate";
+            this.rdProcessCreateSelfSigned.UseVisualStyleBackColor = true;
+            // 
+            // rdProcessCreateCSR
+            // 
+            this.rdProcessCreateCSR.AutoSize = true;
+            this.rdProcessCreateCSR.Checked = true;
+            this.rdProcessCreateCSR.Location = new System.Drawing.Point(6, 64);
+            this.rdProcessCreateCSR.Name = "rdProcessCreateCSR";
+            this.rdProcessCreateCSR.Size = new System.Drawing.Size(81, 17);
+            this.rdProcessCreateCSR.TabIndex = 9;
+            this.rdProcessCreateCSR.TabStop = true;
+            this.rdProcessCreateCSR.Text = "Create CSR";
+            this.rdProcessCreateCSR.UseVisualStyleBackColor = true;
             // 
             // label9
             // 
@@ -384,7 +429,7 @@
             this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.label4);
-            this.groupBox1.Location = new System.Drawing.Point(263, 3);
+            this.groupBox1.Location = new System.Drawing.Point(3, 382);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(254, 182);
             this.groupBox1.TabIndex = 2;
@@ -501,7 +546,7 @@
             this.groupBox6.Controls.Add(this.rbCsrBasicConstraintEndEntity);
             this.groupBox6.Controls.Add(this.rbCsrBasicConstraintExclude);
             this.groupBox6.Controls.Add(this.cbCsrBasicConstraintCritical);
-            this.groupBox6.Location = new System.Drawing.Point(263, 191);
+            this.groupBox6.Location = new System.Drawing.Point(263, 3);
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.Size = new System.Drawing.Size(254, 139);
             this.groupBox6.TabIndex = 10;
@@ -578,7 +623,7 @@
             // 
             this.groupBox7.Controls.Add(this.cbCsrAltNamesInclude);
             this.groupBox7.Controls.Add(this.cbCsrAltNamesCritical);
-            this.groupBox7.Location = new System.Drawing.Point(263, 336);
+            this.groupBox7.Location = new System.Drawing.Point(263, 148);
             this.groupBox7.Name = "groupBox7";
             this.groupBox7.Size = new System.Drawing.Size(254, 68);
             this.groupBox7.TabIndex = 11;
@@ -611,7 +656,7 @@
             // 
             this.groupBox4.Controls.Add(this.cbCsrCertUsageCritical);
             this.groupBox4.Controls.Add(this.cbCsrUsage);
-            this.groupBox4.Location = new System.Drawing.Point(523, 3);
+            this.groupBox4.Location = new System.Drawing.Point(263, 222);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(254, 203);
             this.groupBox4.TabIndex = 6;
@@ -653,7 +698,7 @@
             // 
             this.groupBox5.Controls.Add(this.cbCsrExtendedUsageCritical);
             this.groupBox5.Controls.Add(this.cbCsrExtendedUsage);
-            this.groupBox5.Location = new System.Drawing.Point(523, 212);
+            this.groupBox5.Location = new System.Drawing.Point(523, 3);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(254, 204);
             this.groupBox5.TabIndex = 9;
@@ -695,25 +740,203 @@
             // 
             this.label2.Location = new System.Drawing.Point(6, 3);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(365, 57);
+            this.label2.Size = new System.Drawing.Size(365, 67);
             this.label2.TabIndex = 1;
-            this.label2.Text = "Enter domains to generate CSRs for in this box.\r\n\r\nYou may specify multiple domai" +
-    "ns seperated by commas. The first domain will be used as the common name and the" +
-    " rest as alternate names.";
+            this.label2.Text = resources.GetString("label2.Text");
             // 
             // txtCsrDomains
             // 
             this.txtCsrDomains.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.txtCsrDomains.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtCsrDomains.Location = new System.Drawing.Point(6, 63);
+            this.txtCsrDomains.Location = new System.Drawing.Point(6, 73);
             this.txtCsrDomains.Multiline = true;
             this.txtCsrDomains.Name = "txtCsrDomains";
             this.txtCsrDomains.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtCsrDomains.Size = new System.Drawing.Size(365, 507);
+            this.txtCsrDomains.Size = new System.Drawing.Size(365, 530);
             this.txtCsrDomains.TabIndex = 0;
             this.txtCsrDomains.Text = "forexample.com, www.forexample.com";
             this.txtCsrDomains.WordWrap = false;
+            // 
+            // tpSign
+            // 
+            this.tpSign.Controls.Add(this.groupBox11);
+            this.tpSign.Controls.Add(this.groupBox10);
+            this.tpSign.Controls.Add(this.groupBox9);
+            this.tpSign.Location = new System.Drawing.Point(4, 22);
+            this.tpSign.Name = "tpSign";
+            this.tpSign.Padding = new System.Windows.Forms.Padding(3);
+            this.tpSign.Size = new System.Drawing.Size(1170, 609);
+            this.tpSign.TabIndex = 2;
+            this.tpSign.Text = "Sign Certificates";
+            this.tpSign.UseVisualStyleBackColor = true;
+            // 
+            // groupBox11
+            // 
+            this.groupBox11.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox11.Controls.Add(this.label14);
+            this.groupBox11.Controls.Add(this.label13);
+            this.groupBox11.Controls.Add(this.cbSignCertDuration);
+            this.groupBox11.Controls.Add(this.label12);
+            this.groupBox11.Controls.Add(this.btnSignCertificates);
+            this.groupBox11.Location = new System.Drawing.Point(813, 6);
+            this.groupBox11.Name = "groupBox11";
+            this.groupBox11.Size = new System.Drawing.Size(351, 287);
+            this.groupBox11.TabIndex = 2;
+            this.groupBox11.TabStop = false;
+            this.groupBox11.Text = "Signing Settings";
+            // 
+            // label14
+            // 
+            this.label14.Location = new System.Drawing.Point(6, 16);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(339, 36);
+            this.label14.TabIndex = 5;
+            this.label14.Text = "Specify the duration of the certificate in years. The start date will be today.";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(186, 60);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(32, 13);
+            this.label13.TabIndex = 3;
+            this.label13.Text = "years";
+            // 
+            // cbSignCertDuration
+            // 
+            this.cbSignCertDuration.FormattingEnabled = true;
+            this.cbSignCertDuration.Items.AddRange(new object[] {
+            "1",
+            "2",
+            "3",
+            "5",
+            "10",
+            "20",
+            "30",
+            "50",
+            "100"});
+            this.cbSignCertDuration.Location = new System.Drawing.Point(112, 55);
+            this.cbSignCertDuration.Name = "cbSignCertDuration";
+            this.cbSignCertDuration.Size = new System.Drawing.Size(68, 21);
+            this.cbSignCertDuration.TabIndex = 2;
+            this.cbSignCertDuration.Text = "3";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(9, 60);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(100, 13);
+            this.label12.TabIndex = 1;
+            this.label12.Text = "Certificate Duration:";
+            // 
+            // btnSignCertificates
+            // 
+            this.btnSignCertificates.Location = new System.Drawing.Point(6, 82);
+            this.btnSignCertificates.Name = "btnSignCertificates";
+            this.btnSignCertificates.Size = new System.Drawing.Size(339, 23);
+            this.btnSignCertificates.TabIndex = 0;
+            this.btnSignCertificates.Text = "Sign Certificates";
+            this.btnSignCertificates.UseVisualStyleBackColor = true;
+            this.btnSignCertificates.Click += new System.EventHandler(this.BtnSignCertificates_Click);
+            // 
+            // groupBox10
+            // 
+            this.groupBox10.Controls.Add(this.cbSignAlreadySigned);
+            this.groupBox10.Controls.Add(this.cbSignClientCerts);
+            this.groupBox10.Controls.Add(this.cbSignServerCerts);
+            this.groupBox10.Controls.Add(this.cblSignCsrs);
+            this.groupBox10.Controls.Add(this.label11);
+            this.groupBox10.Location = new System.Drawing.Point(314, 6);
+            this.groupBox10.Name = "groupBox10";
+            this.groupBox10.Size = new System.Drawing.Size(493, 287);
+            this.groupBox10.TabIndex = 1;
+            this.groupBox10.TabStop = false;
+            this.groupBox10.Text = "Select certificates to sign";
+            // 
+            // cbSignAlreadySigned
+            // 
+            this.cbSignAlreadySigned.AutoSize = true;
+            this.cbSignAlreadySigned.Location = new System.Drawing.Point(9, 262);
+            this.cbSignAlreadySigned.Name = "cbSignAlreadySigned";
+            this.cbSignAlreadySigned.Size = new System.Drawing.Size(124, 17);
+            this.cbSignAlreadySigned.TabIndex = 4;
+            this.cbSignAlreadySigned.Text = "Show already signed";
+            this.cbSignAlreadySigned.UseVisualStyleBackColor = true;
+            this.cbSignAlreadySigned.CheckedChanged += new System.EventHandler(this.CbSigning_CheckedChanged);
+            // 
+            // cbSignClientCerts
+            // 
+            this.cbSignClientCerts.AutoSize = true;
+            this.cbSignClientCerts.Checked = true;
+            this.cbSignClientCerts.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbSignClientCerts.Location = new System.Drawing.Point(9, 216);
+            this.cbSignClientCerts.Name = "cbSignClientCerts";
+            this.cbSignClientCerts.Size = new System.Drawing.Size(135, 17);
+            this.cbSignClientCerts.TabIndex = 3;
+            this.cbSignClientCerts.Text = "Show client certificates";
+            this.cbSignClientCerts.UseVisualStyleBackColor = true;
+            this.cbSignClientCerts.CheckedChanged += new System.EventHandler(this.CbSigning_CheckedChanged);
+            // 
+            // cbSignServerCerts
+            // 
+            this.cbSignServerCerts.AutoSize = true;
+            this.cbSignServerCerts.Checked = true;
+            this.cbSignServerCerts.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbSignServerCerts.Location = new System.Drawing.Point(9, 239);
+            this.cbSignServerCerts.Name = "cbSignServerCerts";
+            this.cbSignServerCerts.Size = new System.Drawing.Size(139, 17);
+            this.cbSignServerCerts.TabIndex = 2;
+            this.cbSignServerCerts.Text = "Show server certificates";
+            this.cbSignServerCerts.UseVisualStyleBackColor = true;
+            this.cbSignServerCerts.CheckedChanged += new System.EventHandler(this.CbSigning_CheckedChanged);
+            // 
+            // cblSignCsrs
+            // 
+            this.cblSignCsrs.FormattingEnabled = true;
+            this.cblSignCsrs.Location = new System.Drawing.Point(9, 40);
+            this.cblSignCsrs.Name = "cblSignCsrs";
+            this.cblSignCsrs.Size = new System.Drawing.Size(478, 169);
+            this.cblSignCsrs.TabIndex = 1;
+            // 
+            // label11
+            // 
+            this.label11.Location = new System.Drawing.Point(6, 16);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(290, 21);
+            this.label11.TabIndex = 0;
+            this.label11.Text = "From the list below, select CSRs to sign.";
+            // 
+            // groupBox9
+            // 
+            this.groupBox9.Controls.Add(this.label10);
+            this.groupBox9.Controls.Add(this.cbCaCertificates);
+            this.groupBox9.Location = new System.Drawing.Point(6, 6);
+            this.groupBox9.Name = "groupBox9";
+            this.groupBox9.Size = new System.Drawing.Size(302, 287);
+            this.groupBox9.TabIndex = 0;
+            this.groupBox9.TabStop = false;
+            this.groupBox9.Text = "Select CA";
+            // 
+            // label10
+            // 
+            this.label10.Location = new System.Drawing.Point(6, 16);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(290, 118);
+            this.label10.TabIndex = 1;
+            this.label10.Text = resources.GetString("label10.Text");
+            // 
+            // cbCaCertificates
+            // 
+            this.cbCaCertificates.DisplayMember = "Info";
+            this.cbCaCertificates.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbCaCertificates.FormattingEnabled = true;
+            this.cbCaCertificates.Location = new System.Drawing.Point(6, 137);
+            this.cbCaCertificates.Name = "cbCaCertificates";
+            this.cbCaCertificates.Size = new System.Drawing.Size(290, 21);
+            this.cbCaCertificates.TabIndex = 0;
             // 
             // statusStrip1
             // 
@@ -738,28 +961,6 @@
             this.tspbProgress.Size = new System.Drawing.Size(100, 16);
             this.tspbProgress.Visible = false;
             // 
-            // rdProcessCreateCSR
-            // 
-            this.rdProcessCreateCSR.AutoSize = true;
-            this.rdProcessCreateCSR.Checked = true;
-            this.rdProcessCreateCSR.Location = new System.Drawing.Point(6, 64);
-            this.rdProcessCreateCSR.Name = "rdProcessCreateCSR";
-            this.rdProcessCreateCSR.Size = new System.Drawing.Size(81, 17);
-            this.rdProcessCreateCSR.TabIndex = 9;
-            this.rdProcessCreateCSR.TabStop = true;
-            this.rdProcessCreateCSR.Text = "Create CSR";
-            this.rdProcessCreateCSR.UseVisualStyleBackColor = true;
-            // 
-            // rdProcessCreateSelfSigned
-            // 
-            this.rdProcessCreateSelfSigned.AutoSize = true;
-            this.rdProcessCreateSelfSigned.Location = new System.Drawing.Point(6, 87);
-            this.rdProcessCreateSelfSigned.Name = "rdProcessCreateSelfSigned";
-            this.rdProcessCreateSelfSigned.Size = new System.Drawing.Size(163, 17);
-            this.rdProcessCreateSelfSigned.TabIndex = 9;
-            this.rdProcessCreateSelfSigned.Text = "Create Self Signed Certificate";
-            this.rdProcessCreateSelfSigned.UseVisualStyleBackColor = true;
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -774,8 +975,8 @@
             this.Text = "Crypto Tool";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.tabControl1.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
-            this.tabPage1.PerformLayout();
+            this.tpInspect.ResumeLayout(false);
+            this.tpInspect.PerformLayout();
             this.tpCsrs.ResumeLayout(false);
             this.tpCsrs.PerformLayout();
             this.flowLayoutPanel1.ResumeLayout(false);
@@ -796,6 +997,12 @@
             this.groupBox4.PerformLayout();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
+            this.tpSign.ResumeLayout(false);
+            this.groupBox11.ResumeLayout(false);
+            this.groupBox11.PerformLayout();
+            this.groupBox10.ResumeLayout(false);
+            this.groupBox10.PerformLayout();
+            this.groupBox9.ResumeLayout(false);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -810,7 +1017,7 @@
         private System.Windows.Forms.Button btnBrowse;
         private System.Windows.Forms.ListView lstFiles;
         private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage tpInspect;
         private System.Windows.Forms.TabPage tpCsrs;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.RadioButton rdCsrGenerateNewKey;
@@ -862,6 +1069,22 @@
         private System.Windows.Forms.TextBox txtSelectedThingInfo;
         private System.Windows.Forms.RadioButton rdProcessCreateSelfSigned;
         private System.Windows.Forms.RadioButton rdProcessCreateCSR;
+        private System.Windows.Forms.TabPage tpSign;
+        private System.Windows.Forms.GroupBox groupBox10;
+        private System.Windows.Forms.GroupBox groupBox9;
+        private System.Windows.Forms.ComboBox cbCaCertificates;
+        private System.Windows.Forms.CheckBox cbSignClientCerts;
+        private System.Windows.Forms.CheckBox cbSignServerCerts;
+        private System.Windows.Forms.CheckedListBox cblSignCsrs;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.CheckBox cbSignAlreadySigned;
+        private System.Windows.Forms.GroupBox groupBox11;
+        private System.Windows.Forms.Button btnSignCertificates;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.ComboBox cbSignCertDuration;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label14;
     }
 }
 

@@ -123,6 +123,18 @@
   <metadata name="chInfo.GenerateMember" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
   </metadata>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Enter names to generate CSRs for in this box. For a server certificate this is the domain name.
+
+You may specify multiple names seperated by commas. The first name will be used as the common name and the rest as alternate names.</value>
+  </data>
+  <data name="label10.Text" xml:space="preserve">
+    <value>From the dropdown below, select the CA certificate to use to sign other certificates. Only CA certificates with available keys are shown.
+
+To generate a new root CA certificate, go to the Generate tab, select "Generate Self Signed Certificate" and specify "Certificate Authority" on the basic constraints box.
+
+Select CA certificate:</value>
+  </data>
   <metadata name="statusStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>

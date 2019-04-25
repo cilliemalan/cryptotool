@@ -40,6 +40,8 @@ namespace CryptoTool
             set { txtWorkingDir.Text = value; }
         }
 
+        private IniFile IniFile { get; } = new IniFile(PathUtils.GetSettingsFilePath());
+
         private CertificateFile SelectedItem => lstFiles.SelectedItems.Cast<CertificateFile>().FirstOrDefault();
 
         private static Dictionary<int, string> keyUsageDictionary = new Dictionary<int, string>
@@ -95,7 +97,13 @@ namespace CryptoTool
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            CurrentWorkingDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments, Environment.SpecialFolderOption.DoNotVerify), "CertTool");
+            var workingdir = IniFile.Read("WorkingDir");
+            if (string.IsNullOrEmpty(workingdir))
+            {
+                workingdir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments, Environment.SpecialFolderOption.DoNotVerify), "CertTool");
+                IniFile.Write("WorkingDir", workingdir);
+            }
+            CurrentWorkingDirectory = workingdir;
             if (!Directory.Exists(CurrentWorkingDirectory)) Directory.CreateDirectory(CurrentWorkingDirectory);
             SetupWatcher();
         }
@@ -147,6 +155,8 @@ namespace CryptoTool
                         AddItem(item);
                     }
 
+                    UpdateCaList();
+                    UpdateCsrToSignList();
                     watcher.EnableRaisingEvents = true;
                 }
             }
@@ -156,11 +166,13 @@ namespace CryptoTool
         {
             Invoke(new Action(() =>
             {
+                bool mutated = false;
                 if ((e.ChangeType & WatcherChangeTypes.Created) != 0)
                 {
                     if (File.Exists(e.FullPath))
                     {
                         AddItem(CertificateFile.FromFile(PathUtils.GetFullPath(CurrentWorkingDirectory), e.FullPath));
+                        mutated = true;
                     }
                 }
 
@@ -169,7 +181,11 @@ namespace CryptoTool
                     var files = lstFiles.Items.Cast<CertificateFile>()
                         .Where(x => string.Equals(x.FullPath, e.FullPath, StringComparison.OrdinalIgnoreCase))
                         .ToArray();
-                    foreach (var f in files) RemoveItem(f);
+                    foreach (var f in files)
+                    {
+                        RemoveItem(f);
+                        mutated = true;
+                    }
                 }
 
                 if ((e.ChangeType & WatcherChangeTypes.Renamed) != 0)
@@ -182,7 +198,17 @@ namespace CryptoTool
                     var files = lstFiles.Items.Cast<CertificateFile>()
                         .Where(x => string.Equals(x.FullPath, e.FullPath, StringComparison.OrdinalIgnoreCase))
                         .ToArray();
-                    foreach (var f in files) ReloadItem(f);
+                    foreach (var f in files)
+                    {
+                        ReloadItem(f);
+                        mutated = true;
+                    }
+                }
+
+                if (mutated)
+                {
+                    UpdateCaList();
+                    UpdateCsrToSignList();
                 }
             }));
         }
@@ -211,9 +237,54 @@ namespace CryptoTool
             f.Group = lstFiles.Groups[f.Type.ToString()];
         }
 
+        private void UpdateCaList()
+        {
+            var files = lstFiles.Items.Cast<CertificateFile>();
+            var newItems = new HashSet<CertificateFile>(files
+                .Where(x => x.IsCertificateAuthority)
+                .Where(x => files.Any(f => f.Type == CertificateFileType.PrivateKey && f.PublicKey.Equals(x.PublicKey))));
+
+            var currentItems = new HashSet<CertificateFile>(cbCaCertificates.Items.Cast<CertificateFile>());
+            var toAdd = newItems.Except(currentItems);
+            var toRemove = currentItems.Except(newItems);
+            cbCaCertificates.Items.AddRange(toAdd.ToArray());
+            foreach (var r in toRemove) cbCaCertificates.Items.Remove(r);
+        }
+
+        private async void UpdateCsrToSignList()
+        {
+            bool IsClientCert(Pkcs10CertificationRequest csr) => GetCsrExtensions(csr).Any(x => x.value is ExtendedKeyUsage ku && ku.HasKeyPurposeId(KeyPurposeID.IdKPClientAuth));
+            bool IsServerCert(Pkcs10CertificationRequest csr) => GetCsrExtensions(csr).Any(x => x.value is ExtendedKeyUsage ku && ku.HasKeyPurposeId(KeyPurposeID.IdKPServerAuth));
+
+            bool includeClient = cbSignClientCerts.Checked;
+            bool includeServer = cbSignServerCerts.Checked;
+            bool includeSigned = cbSignAlreadySigned.Checked;
+
+            var files = lstFiles.Items.Cast<CertificateFile>()
+                .Where(x => x.Type == CertificateFileType.Csr)
+                .Select(x => new
+                {
+                    csr = x,
+                    client = IsClientCert((Pkcs10CertificationRequest)x.PemObject),
+                    server = IsServerCert((Pkcs10CertificationRequest)x.PemObject),
+                    signed = lstFiles.Items.Cast<CertificateFile>().Any(f => f.Type == CertificateFileType.Certificate && f.PublicKey.Equals(x.PublicKey))
+                });
+
+            var allfiles = files.Where(x =>
+                (x.client == includeClient || x.server == includeServer) && includeSigned ? true : !x.signed).Select(x => x.csr);
+
+            var newItems = new HashSet<CertificateFile>(allfiles);
+            var currentItems = new HashSet<CertificateFile>(cblSignCsrs.Items.Cast<CertificateFile>());
+            var toAdd = newItems.Except(currentItems);
+            var toRemove = currentItems.Except(newItems);
+            cblSignCsrs.Items.AddRange(toAdd.ToArray());
+            foreach (var r in toRemove) cblSignCsrs.Items.Remove(r);
+        }
+
         private void txtWorkingDir_TextChanged(object sender, EventArgs e)
         {
             SetupWatcher();
+            IniFile.Write("WorkingDir", CurrentWorkingDirectory);
         }
 
         private void lstFiles_SelectedIndexChanged(object sender, EventArgs e)
@@ -620,6 +691,119 @@ namespace CryptoTool
         {
             Csr = 1,
             SelfSignedCert = 2
+        }
+        private void CbSigning_CheckedChanged(object sender, EventArgs e) => UpdateCsrToSignList();
+
+        private void BtnSignCertificates_Click(object sender, EventArgs e)
+        {
+            var rng = new SecureRandom();
+            try
+            {
+                if (!int.TryParse(cbSignCertDuration.Text, out var certDuration)) throw new Exception("Please specify a numeric number of years");
+                if (certDuration < 1) throw new Exception("Please specify a number of years greater than zero");
+
+                var ca = (CertificateFile)cbCaCertificates.SelectedItem;
+                var cacert = (X509Certificate)ca.PemObject;
+                var cakey = (AsymmetricCipherKeyPair)lstFiles.Items.Cast<CertificateFile>().First(x => x.Type == CertificateFileType.PrivateKey && x.PublicKey.Equals(ca.PublicKey)).PemObject;
+                var csrs = cblSignCsrs.CheckedItems.Cast<CertificateFile>().ToArray();
+                var notBefore = DateTime.Today;
+                var notAfter = DateTime.Today.AddYears(certDuration);
+
+                if (ca == null) throw new Exception("Please select a CA certificate");
+                if (csrs.Length == 0) throw new Exception("Please select at least one CSR to sign");
+
+                foreach (var csr in csrs)
+                {
+                    string outfile = PathUtils.GetFullPath(Path.Combine(CurrentWorkingDirectory, Path.ChangeExtension(csr.Filename, ".cer")));
+                    if (File.Exists(outfile))
+                    {
+                        var r = MessageBox.Show(this, $"Replace {outfile}?", "File already exists", MessageBoxButtons.YesNoCancel);
+                        if (r == DialogResult.No) continue;
+                        if (r == DialogResult.Cancel) return;
+                    }
+
+                    // stuff for the cert
+                    var pkc = (Pkcs10CertificationRequest)csr.PemObject;
+                    var pkcinfo = pkc.GetCertificationRequestInfo();
+                    var pkcpub = pkc.GetPublicKey();
+                    byte[] bserial = new byte[16];
+                    rng.NextBytes(bserial);
+                    bserial[0] &= 0b0111_1111;
+
+                    // extensions
+                    var extensions = GetCsrExtensions(pkc);
+
+                    // generate the cert
+                    var gen = new X509V3CertificateGenerator();
+                    gen.SetIssuerDN(cacert.SubjectDN);
+                    gen.SetSerialNumber(new BigInteger(bserial));
+                    gen.SetNotBefore(notBefore);
+                    gen.SetNotAfter(notAfter);
+                    gen.SetSubjectDN(pkcinfo.Subject);
+                    gen.SetPublicKey(pkcpub);
+                    foreach (var ext in extensions) gen.AddExtension(ext.oid, ext.critical, ext.value);
+                    // extensions
+
+                    // sign the cert
+                    ISignatureFactory signer;
+                    if (cakey.Private is ECPrivateKeyParameters)
+                    {
+                        signer = new Asn1SignatureFactory("SHA256WITHECDSA", cakey.Private, rng);
+                    }
+                    else
+                    {
+                        signer = new Asn1SignatureFactory("SHA256WITHRSA", cakey.Private, rng);
+                    }
+
+                    var cert = gen.Generate(signer);
+                    cert.CheckValidity();
+                    cert.Verify(cakey.Public);
+                    WriteToPemFile(outfile, cert);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private (DerObjectIdentifier oid, bool critical, Asn1Encodable value)[] GetCsrExtensions(Pkcs10CertificationRequest csr)
+        {
+            return csr.GetCertificationRequestInfo()
+                .Attributes.Cast<Asn1Encodable>()
+                .Where(x => x is DerSequence)
+                .Cast<DerSequence>()
+                .Where(x => x.Count == 2 && x[0] is DerObjectIdentifier)
+                .Where(x => ((DerObjectIdentifier)x[0]).Equals(PkcsObjectIdentifiers.Pkcs9AtExtensionRequest))
+                .Select(x => x[1] as DerSet)
+                .Where(x => x != null)
+                .Select(x => x[0] as DerSequence)
+                .SelectMany(x => x.Cast<Asn1Encodable>().Where(y => y is DerSequence).Cast<DerSequence>())
+                .Where(x => x.Count == 3 || x.Count == 2)
+                .Select(x => TryParseExtension(x))
+                .Where(x => x.Item1 != null)
+                .ToArray();
+        }
+
+        private (DerObjectIdentifier oid, bool critical, Asn1Encodable value) TryParseExtension(DerSequence x)
+        {
+            if (x.Count < 2) return default;
+            var oid = x[0] as DerObjectIdentifier;
+            var critical = x.Count >= 3 ? ((x[1] as DerBoolean)?.IsTrue ?? false) : false;
+            var value = x[x.Count - 1] as DerOctetString;
+
+            try
+            {
+                var v = Asn1Object.FromByteArray(value.GetOctets());
+                if (oid.Id == X509Extensions.BasicConstraints.Id) return (oid, critical, BasicConstraints.GetInstance(v));
+                if (oid.Id == X509Extensions.SubjectAlternativeName.Id) return (oid, critical, GeneralNames.GetInstance(v));
+                if (oid.Id == X509Extensions.ExtendedKeyUsage.Id) return (oid, critical, ExtendedKeyUsage.GetInstance(v));
+                if (oid.Id == X509Extensions.KeyUsage.Id) return (oid, critical, KeyUsage.GetInstance(v));
+            }
+            catch
+            {
+            }
+            return default;
         }
     }
 }
