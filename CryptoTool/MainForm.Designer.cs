@@ -142,6 +142,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtWorkingDir.Location = new System.Drawing.Point(116, 12);
             this.txtWorkingDir.Name = "txtWorkingDir";
+            this.txtWorkingDir.ReadOnly = true;
             this.txtWorkingDir.Size = new System.Drawing.Size(993, 20);
             this.txtWorkingDir.TabIndex = 0;
             this.txtWorkingDir.Text = "C:\\Users\\Cillie Malan\\Google Drive\\myneca";
