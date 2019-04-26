@@ -25,14 +25,16 @@ In the middle, check the CSRs you want to sign.
 On the right, select the duration and click sign. It will put certificates right next to the CSRs with a different extension.
 
 ## Stuff not done (yet)
-- It doesn't do fancy stuff like OCSP, CRL, SCT, etc etc etc.
+- It doesn't do fancy stuff like OCSP, CRL, SCT, etc etc etc. It only supports the most common extensions.
 - It doesn't show certificate chains.
 - It doesn't show CSR details in the info panel.
 - It can under some circumstances generate invalid certificates (i.e. if you specify invalid usages).
-- It doesn't support PKCS12 containers (p12/pfx files).
-- It does not securely save keys. It just plops them on disk.
+- It doesn't support PKCS12 containers (p12/pfx files). To combine `.key` and `.cer` files
+  into a PKCS12 file using openssl, [see this](https://www.ssl.com/how-to/create-a-pfx-p12-certificate-file-using-openssl/).
+- It does not securely save keys (i.e. with passwords). It just plops them on disk.
 - It only saves files as PEM.
 - You cannot modify extensions when signing certificates.
+- Self signed certificates have a hardcoded duration of 30 years.
 
 ## License
 see [LICENSE](LICENSE)
