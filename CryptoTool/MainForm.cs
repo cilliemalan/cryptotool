@@ -33,6 +33,7 @@ namespace CryptoTool
     public partial class MainForm : Form
     {
         FileSystemWatcher watcher;
+        bool loaded;
 
         private string CurrentWorkingDirectory
         {
@@ -106,6 +107,15 @@ namespace CryptoTool
             CurrentWorkingDirectory = workingdir;
             if (!Directory.Exists(CurrentWorkingDirectory)) Directory.CreateDirectory(CurrentWorkingDirectory);
             SetupWatcher();
+
+            txtCsrSubjO.Text = IniFile.Read("Organization", "Subject");
+            txtCsrSubjOU.Text = IniFile.Read("OrganizationUnit", "Subject");
+            txtCsrSubjC.Text = IniFile.Read("Country", "Subject");
+            txtCsrSubjST.Text = IniFile.Read("State", "Subject");
+            txtCsrSubjL.Text = IniFile.Read("Locality", "Subject");
+            txtCsrSubjEmail.Text = IniFile.Read("Email", "Subject");
+
+            loaded = true;
         }
 
         private void btnBrowse_Click(object sender, EventArgs e)
@@ -126,6 +136,19 @@ namespace CryptoTool
                 {
                     CurrentWorkingDirectory = fd.FileName;
                 }
+            }
+        }
+
+        private void Subject_Changed(object sender, EventArgs e)
+        {
+            if (loaded)
+            {
+                IniFile.Write("Organization", txtCsrSubjO.Text, "Subject");
+                IniFile.Write("OrganizationUnit", txtCsrSubjOU.Text, "Subject");
+                IniFile.Write("Country", txtCsrSubjC.Text, "Subject");
+                IniFile.Write("State", txtCsrSubjST.Text, "Subject");
+                IniFile.Write("Locality", txtCsrSubjL.Text, "Subject");
+                IniFile.Write("Email", txtCsrSubjEmail.Text, "Subject");
             }
         }
 
