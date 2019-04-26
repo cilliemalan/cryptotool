@@ -16,7 +16,7 @@ On the Generate tab, CSRs and self-signed certificates can be generated (in bulk
 For more information about the options, check the OpenSSL docs or just google it. Or update this readme and make a PR.
 
 ### Sign Certificates Tab
-On the sign certificates tab you can sign certificates.
+On the sign certificates tab you can sign certificates. For more info see [HOWTO_CA.md](HOWTO_CA.md#how-to-use-crypto-tool-as-a-certificate-authority).
 ![it's a SIGNING tool](https://i.imgur.com/9PDUfog.png)
 On the left select a CA certificate. It will show all detected CA certificates with keys. If you don't see your certificate that's because it doesn't have the right basic constraint or the key is not available. You can generate a CA certificate on the Generate tab by selecting Certificate Authority as a basic constraint and selecting Certificate Key Enchipherment as a key usage.
 
